@@ -1,5 +1,0 @@
-###LAMBDA OS README
-
-Test README
-
-OMG i love CHEESE
