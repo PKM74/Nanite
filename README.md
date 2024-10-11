@@ -2,8 +2,7 @@
 Tiny OS that can run on X86 hardware off floppy disks or other media
 Good luck reading my terrible X86 ASM and C
 I work on this in my spare time,
-I am designing it for older computers such as a i286 or i386 system i would recomend atleast a i486 however,
-as i expect the kernel to be fairly large.
+I am designing it for older computers such as a i486 or i386 system i would recomend atleast a i586 (Pentium) however.
 ## Features
 A Bootloader.
 Thats it.
