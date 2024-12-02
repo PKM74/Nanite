@@ -1,5 +1,0 @@
-x86.h(22): Error! E1009: Expecting ',' or ';' but found 'x86_Disk_GetDriveParams'
-stdio.c(100): Warning! W100: Parameter 1 contains inconsistent levels of indirection
-stdio.c(100): Note! I2003: source conversion type is 'char **'
-stdio.c(100): Note! I2004: target conversion type is 'char const *'
-stdio.c(100): Note! I2002: 'puts' defined in: stdio.c(14)
