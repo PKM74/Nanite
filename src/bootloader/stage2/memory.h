@@ -6,4 +6,4 @@
 #pragma once
 #include "stdint.h"
 
-uint32_t align(uint32_t number, uint32_t alignTo);
+int memcpy(void far* dst, const void far* src, uint16_t num);

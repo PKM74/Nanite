@@ -1,3 +1,8 @@
+/*----------------*\
+|Nanite OS         |
+|Copyright (C) 2024|
+|Tyler McGurrin    |
+\*----------------*/
 #pragma once
 
 // 0x00000000 - 0x000003FF - int vector table

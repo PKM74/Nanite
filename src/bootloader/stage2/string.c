@@ -1,3 +1,8 @@
+/*----------------*\
+|Nanite OS         |
+|Copyright (C) 2024|
+|Tyler McGurrin    |
+\*----------------*/
 #include "string.h"
 #include "stdint.h"
 
@@ -33,4 +38,12 @@ char* strcpy(char* dst, const char* src) {
 
     *dst = '\0'; 
     return origDst;
+}
+
+unsigned strlen(const char* str) {
+    unsigned len = 0;
+    while (*str) {
+        ++len; ++str;
+    }
+    return len;
 }

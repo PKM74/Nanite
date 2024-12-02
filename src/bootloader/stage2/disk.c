@@ -1,3 +1,8 @@
+/*----------------*\
+|Nanite OS         |
+|Copyright (C) 2024|
+|Tyler McGurrin    |
+\*----------------*/
 #include "disk.h"
 #include "x86.h"
 #include "stdio.h"
