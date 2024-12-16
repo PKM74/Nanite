@@ -112,7 +112,7 @@ bool FAT_Initialize(DISK* disk) {
 	g_Data->RootDirectory.Public.Position = 0;
 	g_Data->RootDirectory.Public.Size = sizeof(FAT_DirectoryEntry) * g_Data->BS.BootSector.DirEntryCount;
 	g_Data->RootDirectory.Opened = true;
-	g_Data->RootDirectory.FirstCluster = 0;
+	g_Data->RootDirectory.FirstCluster = rootDirLba;
 	g_Data->RootDirectory.CurrentCluster = 0;
 	g_Data->RootDirectory.CurrentSectorInCluster = 0;
 
@@ -149,14 +149,14 @@ FAT_File far* FAT_OpenEntry(DISK* disk, FAT_DirectoryEntry* entry) {
 	}
 
 	// setup vars
-	FAT_FileData far* fd = &g_Data->OpenedFiles[handle];
-	fd->Public.Handle = handle;
-	fd->Public.IsDirectory = (entry->Attributes & FAT_ATTRIBUTE_DIRECTORY) != 0;\
-	fd->Public.Position = 0;
-	fd->Public.Size = 0;
-	fd->FirstCluster = entry->FirstClusterLow + ((uint32_t)entry->FirstClusterHigh << 16);
-	fd->CurrentCluster = fd->FirstCluster;
-	fd->CurrentSectorInCluster = 0;
+    FAT_FileData far* fd = &g_Data->OpenedFiles[handle];
+    fd->Public.Handle = handle;
+    fd->Public.IsDirectory = (entry->Attributes & FAT_ATTRIBUTE_DIRECTORY) != 0;
+    fd->Public.Position = 0;
+    fd->Public.Size = entry->Size;
+    fd->FirstCluster = entry->FirstClusterLow + ((uint32_t)entry->FirstClusterHigh << 16);
+    fd->CurrentCluster = fd->FirstCluster;
+    fd->CurrentSectorInCluster = 0;
 
 	if (!DISK_ReadSectors(disk, FAT_ClusterToLba(fd->CurrentCluster), 1, fd->Buffer)) {
 		printf("FAT: Read Error!\r\n");
@@ -170,9 +170,9 @@ FAT_File far* FAT_OpenEntry(DISK* disk, FAT_DirectoryEntry* entry) {
 uint32_t FAT_NextCluster(uint32_t currentCluster) {
 	uint32_t fatIndex = currentCluster * 3 / 2;
 				if (currentCluster % 2 == 0)
-			return (*(uint16_t*)(g_Fat + fatIndex)) & 0x0FFF;
+			return (*(uint16_t far*)(g_Fat + fatIndex)) & 0x0FFF;
 		else
-			return (*(uint16_t*)(g_Fat + fatIndex)) >> 4;
+			return (*(uint16_t far*)(g_Fat + fatIndex)) >> 4;
 
 }
 
@@ -183,21 +183,21 @@ uint32_t FAT_Read(DISK* disk, FAT_File far* file, uint32_t byteCount, void* data
 	: &g_Data->OpenedFiles[file->Handle];
 
 	uint8_t* u8DataOut = (uint8_t*)dataOut;
-
+	
 	// don't read past EOF
-	byteCount = min(byteCount, fd->Public.Size - fd->Public.Position);
-
+	if (!fd->Public.IsDirectory)
+		byteCount = min(byteCount, fd->Public.Size - fd->Public.Position);
+		
 	while (byteCount > 0) {
 		uint32_t leftInBuffer = SECTOR_SIZE - (fd->Public.Position % SECTOR_SIZE);
 		uint32_t take = min(byteCount, leftInBuffer);
-
 		memcpy(u8DataOut, fd->Buffer + fd->Public.Position % SECTOR_SIZE, take);
 		u8DataOut += take;
 		fd->Public.Position += take;
 		byteCount -= take;
 
 		// see if we need to read more data
-		if (byteCount > 0) { 
+		if (leftInBuffer == take) { 
 			// root dir handler
 			if (fd->Public.Handle == ROOT_DIRECTORY_HANDLE) {
 				++fd->CurrentCluster;
@@ -215,7 +215,8 @@ uint32_t FAT_Read(DISK* disk, FAT_File far* file, uint32_t byteCount, void* data
 					fd->CurrentCluster = FAT_NextCluster;
 				}
 				if (fd->CurrentCluster >= 0x0FF8) {
-					printf("FAT: Read Error, Invalid Next Cluster!\r\n");
+					// mark EOF
+					fd->Public.Size = fd.Public.Position;
 					break;
 
 				}
@@ -254,7 +255,7 @@ bool FAT_FindFile(DISK* disk, FAT_File far* file, const char* name, FAT_Director
 	const char* ext = strchr(name, '.');
 	if (ext == NULL)
 		ext = name + 11;
-	for (int i = 0; i < 8 && name + i < ext; i++)
+	for (int i = 0; i < 8 && name[i] && name + i < ext; i++)
 		fatName[i] = toupper(name[i]);
     if (ext != NULL) {
         for (int i = 0; i < 3 && ext[i + 1]; i++)
