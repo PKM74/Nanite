@@ -51,7 +51,7 @@ void _cdecl printf(const char* fmt, ...) {
 			case PRINTF_STATE_NORMAL:
 				switch (*fmt)
 				{
-					case '%':	state = PRINTF_STATE_NORMAL;
+					case '%':	state = PRINTF_STATE_LENGTH;
 								break;
 					default:	putc(*fmt);
 								break;

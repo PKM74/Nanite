@@ -367,7 +367,7 @@ disk_reset:
     ret
 
 
-msg_loading:			db 'Loading Nanite...', ENDL, 0
+msg_loading:			db '', ENDL, 0
 msg_read_failed:		db 'Cant Read Disk!', ENDL, 0	
 msg_no_stage2:			db 'Cant Find Stage 2!', ENDL, 0	
 file_stage2_bin:		db 'STAGE2  BIN'

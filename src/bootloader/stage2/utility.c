@@ -1,3 +1,8 @@
+/*----------------*\
+|Nanite OS         |
+|Copyright (C) 2024|
+|Tyler McGurrin    |
+\*----------------*/
 #include "utility.h"
 
 uint32_t align(uint32_t number, uint32_t alignTo) { 
