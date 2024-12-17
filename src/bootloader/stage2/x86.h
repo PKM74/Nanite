@@ -1,3 +1,8 @@
+/*----------------*\
+|Nanite OS         |
+|Copyright (C) 2024|
+|Tyler McGurrin    |
+\*----------------*/
 #pragma once
 #include <stdint.h>
 #include <stdbool.h>
