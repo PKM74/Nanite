@@ -2,7 +2,7 @@ echo ------------
 echo COMPILING OS
 echo ------------
 
-sudo make
+make
 
 echo ---------
 echo Finished!

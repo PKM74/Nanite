@@ -11,7 +11,7 @@ case $yn in
 	echo Removing Old Build Files...;
 	echo ---------------------------;
 
-	sudo make clean;
+	make clean;
 	echo -----;
 	echo Done!;
 	echo -----;
@@ -26,7 +26,7 @@ echo ------------
 echo COMPILING OS
 echo ------------
 
-sudo make -s
+make -s
 
 echo ---------
 echo Finished!
@@ -38,7 +38,7 @@ case $yn in
 	echo -------------
 	echo STARTING QEMU
 	echo -------------
-	sudo qemu-system-i386 -fda build/main_floppy.img
+	qemu-system-i386 -fda build/main_floppy.img
 	echo --------
 	echo Finshed!
 	echo --------
