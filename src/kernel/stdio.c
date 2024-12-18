@@ -8,12 +8,24 @@
 #include <stdarg.h>
 #include <stdbool.h>
 
+
+const uint8_t DEFAULT_COLOUR = 0x7;
+
 const unsigned SCREEN_WIDTH = 80;
 const unsigned SCREEN_HEIGHT = 25;
-const uint8_t DEFAULT_COLOUR = 0x7;
 
 uint8_t* g_ScreenBuffer = (uint8_t*)0xB8000;
 int g_ScreenX = 0, g_ScreenY = 0;
+
+void movecursorpos(int x, int y) {
+	g_ScreenX = x;
+	g_ScreenY = y;
+}
+
+void getcursorpos(int x, int y) {
+	x = g_ScreenX;
+	y = g_ScreenY;
+}
 
 void putchr(int x, int y, char c)
 {
@@ -37,12 +49,12 @@ uint8_t getcolour(int x, int y)
 
 void setcursor(int x, int y)
 {
-	int pos = y * SCREEN_WIDTH + x;
+    int pos = y * SCREEN_WIDTH + x;
 
-	x86_outb(0x3D4, 0x0F);
-	x86_outb(0x3D5, (uint8_t)(pos & 0xFF));
-	x86_outb(0x3D4, 0x0E);
-	x86_outb(0x3D5, (uint8_t)((pos >> 8) & 0xFF));
+    x86_outb(0x3D4, 0x0F);
+    x86_outb(0x3D5, (uint8_t)(pos & 0xFF));
+    x86_outb(0x3D4, 0x0E);
+    x86_outb(0x3D5, (uint8_t)((pos >> 8) & 0xFF));
 }
 
 void clrscr()

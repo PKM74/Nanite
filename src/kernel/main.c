@@ -21,9 +21,13 @@ extern uint8_t __end;
     printf("Loaded Kernel!\n");
 
     // init HAL
-    printf("Initializing HAL...");
+    printf("Initializing HAL...\n");
+    int halx, haly = 0;
     HAL_Initialize();
-    printf("Done!\n");
+    movecursorpos(19, 8);
+    printf("Done!\n\n\n");
+
+
 
 end:
     for (;;);
