@@ -17,53 +17,58 @@
 #define MAX_FILE_HANDLES		10
 #define ROOT_DIRECTORY_HANDLE	-1
 
-typedef struct
+typedef struct 
 {
-	uint8_t BootJumpInstruction[3];
-	uint8_t OemIdentifier[8];
-	uint16_t BytesPerSector;
-	uint8_t SectorsPerCluster;
-	uint16_t ReservedSectors;
-	uint8_t FatCount;
-	uint16_t DirEntryCount;
-	uint16_t TotalSectors;
-	uint8_t MediaDescriptorType;
-	uint16_t SectorsPerFat;
-	uint16_t SectorsPerTrack;
-	uint16_t Heads;
-	uint32_t HiddenSectors;
-	uint32_t LargeSectorCount;
-	
-//Extended Boot Record
-	uint8_t DriveNumber;
-	uint8_t _Reserved;
-	uint8_t Signature;
-	uint32_t VolumeId;			//Serial Can be whatever
-	uint8_t VolumeLabel[11];		//11 Bytes MUST Be padded with spaces!
-	uint8_t SystemId[8];		//8 Bytes padded with spaces (use MSWIN4.1 for best compatibility!)
-	
+    uint8_t BootJumpInstruction[3];
+    uint8_t OemIdentifier[8];
+    uint16_t BytesPerSector;
+    uint8_t SectorsPerCluster;
+    uint16_t ReservedSectors;
+    uint8_t FatCount;
+    uint16_t DirEntryCount;
+    uint16_t TotalSectors;
+    uint8_t MediaDescriptorType;
+    uint16_t SectorsPerFat;
+    uint16_t SectorsPerTrack;
+    uint16_t Heads;
+    uint32_t HiddenSectors;
+    uint32_t LargeSectorCount;
+
+    // extended boot record
+    uint8_t DriveNumber;
+    uint8_t _Reserved;
+    uint8_t Signature;
+    uint32_t VolumeId;          // serial number, value doesn't matter
+    uint8_t VolumeLabel[11];    // 11 bytes, padded with spaces
+    uint8_t SystemId[8];
+
+    // ... we don't care about code ...
+
 } __attribute__((packed)) FAT_BootSector;
 
-typedef struct { 
-	FAT_File Public;
-	bool Opened;
-	uint32_t FirstCluster;
-	uint32_t CurrentCluster;
-	uint32_t CurrentSectorInCluster;
-	uint8_t Buffer[SECTOR_SIZE];
 
-} __attribute__((packed)) FAT_FileData;
+typedef struct
+{
+    uint8_t Buffer[SECTOR_SIZE];
+    FAT_File Public;
+    bool Opened;
+    uint32_t FirstCluster;
+    uint32_t CurrentCluster;
+    uint32_t CurrentSectorInCluster;
 
+} FAT_FileData;
 
-typedef struct {
-	union {
-		FAT_BootSector BootSector;
-		uint8_t BootSectorBytes[SECTOR_SIZE];
-	} BS;
+typedef struct
+{
+    union
+    {
+        FAT_BootSector BootSector;
+        uint8_t BootSectorBytes[SECTOR_SIZE];
+    } BS;
 
-	FAT_FileData RootDirectory;
+    FAT_FileData RootDirectory;
 
-	FAT_FileData OpenedFiles[MAX_FILE_HANDLES];
+    FAT_FileData OpenedFiles[MAX_FILE_HANDLES];
 
 } FAT_Data;
 
@@ -131,7 +136,7 @@ bool FAT_Initialize(DISK* disk) {
 }
 
 uint32_t FAT_ClusterToLba(uint32_t cluster) {
-	return g_DataSectionLba + (cluster -2) * g_Data->BS.BootSector.SectorsPerCluster;
+    return g_DataSectionLba + (cluster - 2) * g_Data->BS.BootSector.SectorsPerCluster;
 }
 
 FAT_File* FAT_OpenEntry(DISK* disk, FAT_DirectoryEntry* entry) {
@@ -158,7 +163,10 @@ FAT_File* FAT_OpenEntry(DISK* disk, FAT_DirectoryEntry* entry) {
     fd->CurrentSectorInCluster = 0;
 
 	if (!DISK_ReadSectors(disk, FAT_ClusterToLba(fd->CurrentCluster), 1, fd->Buffer)) {
-		printf("FAT: Read Error!\r\n");
+		printf("FAT: Failed to Open Entry, Read Error!\nCluster Is: %u\n", fd->CurrentCluster);
+		for (int i = 0; i < 11; i++)
+			printf("%c", entry->Name[i]);
+		printf("\n");
 		return false;
 	}
 
@@ -184,7 +192,7 @@ uint32_t FAT_Read(DISK* disk, FAT_File* file, uint32_t byteCount, void* dataOut)
 	uint8_t* u8DataOut = (uint8_t*)dataOut;
 	
 	// don't read past EOF
-	if (!fd->Public.IsDirectory)
+	if (!fd->Public.IsDirectory || (fd->Public.IsDirectory && fd->Public.Size != 0))
 		byteCount = min(byteCount, fd->Public.Size - fd->Public.Position);
 		
 	while (byteCount > 0) {
@@ -211,7 +219,7 @@ uint32_t FAT_Read(DISK* disk, FAT_File* file, uint32_t byteCount, void* dataOut)
 				if (++fd->CurrentSectorInCluster >= g_Data->BS.BootSector.SectorsPerCluster) {
 					// calc next cluster & sect. to read
 					fd->CurrentSectorInCluster = 0;
-					fd->CurrentCluster = FAT_NextCluster;
+					fd->CurrentCluster = FAT_NextCluster(fd->CurrentCluster);
 				}
 				if (fd->CurrentCluster >= 0x0FF8) {
 					// mark EOF
@@ -251,16 +259,23 @@ bool FAT_FindFile(DISK* disk, FAT_File* file, const char* name, FAT_DirectoryEnt
 
 	// convert from name to fat name
 	memset(fatName, ' ', sizeof(fatName));
+	fatName[11] + '\0';
+
 	const char* ext = strchr(name, '.');
 	if (ext == NULL)
 		ext = name + 11;
 	for (int i = 0; i < 8 && name[i] && name + i < ext; i++)
 		fatName[i] = toupper(name[i]);
-    if (ext != NULL) {
+    if (ext != name + 11) {
         for (int i = 0; i < 3 && ext[i + 1]; i++)
             fatName[i + 8] = toupper(ext[i + 1]);
     }
 	while (FAT_ReadEntry(disk, file, &entry)) {
+		// for (int i = 0; i < 11; i++)
+		// 	printf("%c", fatName);
+
+		// for (int i = 0; i < 11; i++)
+		// 	printf("%c", entry.Name[i]);
 		if (memcmp(fatName, entry.Name, 11) == 0) {
 			*entryOut = entry;
 			return true;

@@ -17,7 +17,8 @@ $(BUILD_DIR)/main_floppy.img: bootloader kernel
 	mkfs.fat -F 12 -n "NANITE" $(BUILD_DIR)/main_floppy.img
 	dd if=$(BUILD_DIR)/stage1.bin of=$(BUILD_DIR)/main_floppy.img conv=notrunc
 	mcopy -i $(BUILD_DIR)/main_floppy.img $(BUILD_DIR)/stage2.bin "::stage2.bin"
-	mcopy -i $(BUILD_DIR)/main_floppy.img $(BUILD_DIR)/kernel.bin "::kernel.bin"
+	mmd -i $(BUILD_DIR)/main_floppy.img "::boot"
+	mcopy -i $(BUILD_DIR)/main_floppy.img $(BUILD_DIR)/kernel.bin "::boot/kernel.bin"
 	mmd -i $(BUILD_DIR)/main_floppy.img "::misc"
 	mcopy -i $(BUILD_DIR)/main_floppy.img test.txt "::misc/test.txt"
 
