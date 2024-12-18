@@ -10,9 +10,7 @@
 #include "fat.h"
 #include "memdefs.h"
 #include "memory.h"
-
-#define LOGO "    _   _____    _   __________________\n   / | / /   |  / | / /  _/_  __/ ____/\n  /  |/ / /| | /  |/ // /  / / / __/   \n / /|  / ___ |/ /|  // /  / / / /___   \n/_/ |_/_/  |_/_/ |_/___/ /_/ /_____/   \n"
-#define VERSION "v0.0.1"
+#include "../../version.h"
 
 
 uint8_t* KernelLoadBuffer = (uint8_t*)MEMORY_LOAD_KERNEL;
@@ -32,8 +30,8 @@ void* g_data = (void*)0x20000;
  void __attribute__((cdecl)) start(uint16_t bootDrive) {
     // Clear screen and Print Startup logo
     clrscr();
-    printf("%s", LOGO);
-    printf("The Nano OS                   %s\n-------------------------------------\n", VERSION);
+    printf("%s", BOOTLOGO);
+    printf("The Nano Loader        %s\n------------------------------\n", VERSION);
 
     // Test Real Mode
     printf("Testing Real Mode...");
