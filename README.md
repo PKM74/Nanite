@@ -16,3 +16,5 @@ Testing is also done with QEMU and previously BOCHS (not anymore cuz it almost c
 Thanks to Nanobyte and the OSDEV wiki for providing resources for me to be able to make this.
 - Nanobyte's Youtube Channel: https://www.youtube.com/@nanobyte-dev
 - OSDEV Wiki: https://wiki.osdev.org/Expanded_Main_Page
+And also a thanks to King Gizzard and The Lizzard Wizzard, without their music I highly doubt I would've made this.
+They can be found here: https://kinggizzardandthelizardwizard.com/
