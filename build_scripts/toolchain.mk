@@ -11,7 +11,7 @@ toolchain_binutils: $(BINUTILS_SRC).tar.gz
 
 	cd toolchain && tar -xf binutils-$(BINUTILS_VERSION).tar.gz
 	mkdir -p $(BINUTILS_BUILD)
-	cd $(BINUTILS_BUILD) && ../binutils-$(BINUTILS_VERSION)/configure \
+	cd $(BINUTILS_BUILD) && CFLAGS = ASM = ASMFLAGS = CC = CXX = LD = LINKFLAGS = LIBS =  ../binutils-$(BINUTILS_VERSION)/configure \
 		--prefix="$(TOOLCHAIN_PREFIX)"	\
 		--target=$(TARGET)				\
 		--with-sysroot					\
@@ -31,7 +31,7 @@ GCC_BUILD = toolchain/gcc-build-$(GCC_VERSION)
 toolchain_gcc: toolchain_binutils $(GCC_SRC).tar.gz
 	cd toolchain && tar -xf gcc-$(GCC_VERSION).tar.gz
 	mkdir -p $(GCC_BUILD)
-	cd $(GCC_BUILD) && ../gcc-$(GCC_VERSION)/configure \
+	cd $(GCC_BUILD) && CFLAGS = ASM = ASMFLAGS = CC = CXX = LD = LINKFLAGS = LIBS = ../gcc-$(GCC_VERSION)/configure \
 		--prefix="$(TOOLCHAIN_PREFIX)"	\
 		--target=$(TARGET)				\
 		--disable-nls					\
