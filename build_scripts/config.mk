@@ -18,6 +18,9 @@ export TARGET_LINKFLAGS =
 export TARGET_LIBS = 
 
 export BUILD_DIR = $(abspath build)
+export SOURCE_DIR = $(abspath .)
+
+# i hate making make files...
 
 BINUTILS_VERSION = 2.43.1
 BINUTILS_URL = https://ftp.gnu.org/gnu/binutils/binutils-$(BINUTILS_VERSION).tar.gz

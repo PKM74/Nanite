@@ -25,7 +25,14 @@ extern uint8_t __end;
     int halx, haly = 0;
     HAL_Initialize();
     movecursorpos(19, 8);
-    printf("Done!\n\n\n");
+    printf("Done!\n\n\n\n");
+    printf("Testing Interrupts...\n");
+    __asm("int $0x2");
+    printf("Testing Interrupts...\n");
+    __asm("int $0x3");
+    printf("Testing Interrupts...\n");
+    __asm("int $0x4");
+
 
 
 
