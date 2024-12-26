@@ -19,3 +19,4 @@ typedef struct
 typedef void (*ISRHandler)(Registers* regs);
 
 void i686_ISR_Initialize();
+void i686_ISR_RegisterHandler(int interrupt);

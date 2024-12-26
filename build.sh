@@ -38,7 +38,7 @@ case $yn in
 	echo -------------
 	echo STARTING QEMU
 	echo -------------
-	qemu-system-i386 -fda build/main_floppy.img
+	qemu-system-i386 -audiodev pa,id=speaker -machine pcspk-audiodev=speaker -fda build/main_floppy.img
 	echo --------
 	echo Finshed!
 	echo --------

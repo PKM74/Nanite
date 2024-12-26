@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <memory.h>
 #include <hal/hal.h>
+#include <arch/i686/io.h>
+#include <arch/i686/basicdri.h>
 #include "../version.h"
 
 extern uint8_t __bss_start;
@@ -26,12 +28,7 @@ extern uint8_t __end;
     HAL_Initialize();
     movecursorpos(19, 8);
     printf("Done!\n\n\n\n");
-    printf("Testing Interrupts...\n");
-    __asm("int $0x2");
-    printf("Testing Interrupts...\n");
-    __asm("int $0x3");
-    printf("Testing Interrupts...\n");
-    __asm("int $0x4");
+    beep();
 
 
 
