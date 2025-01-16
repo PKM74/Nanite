@@ -24,11 +24,9 @@ extern uint8_t __end;
 
     // init HAL
     printf("Initializing HAL...\n");
-    int halx, haly = 0;
     HAL_Initialize();
     movecursorpos(19, 8);
     printf("Done!\n\n\n\n");
-    beep();
 
 
 
