@@ -7,6 +7,8 @@ SOURCES_C=$(wildcard *.c)
 SOURCES_ASM=$(wildcard *.asm)
 OBJECTS_C=$(patsubst %.c, $(BUILD_DIR)/stage2/c/%.obj, $(SOURCES_C))
 OBJECTS_ASM=$(patsubst %.asm, $(BUILD_DIR)/stage2/asm/%.obj, $(SOURCES_ASM))
+HEADERS_C=	$(wildcard ../../libs/*.h) \
+			$(wildcard ../../libs/*/*.h) 
 
 .PHONY: all stage2 clean always
 
@@ -17,7 +19,7 @@ stage2: $(BUILD_DIR)/stage2.bin
 $(BUILD_DIR)/stage2.bin: $(OBJECTS_ASM) $(OBJECTS_C)
 	$(TARGET_LD) $(TARGET_LINKFLAGS) -Wl,-Map=$(BUILD_DIR)/stage2.map -o $@ $^ $(TARGET_LIBS)
 
-$(BUILD_DIR)/stage2/c/%.obj: %.c always
+$(BUILD_DIR)/stage2/c/%.obj: %.c always $(HEADERS_C)
 	$(TARGET_CC) $(TARGET_CFLAGS) -c -o $@ $<
 
 $(BUILD_DIR)/stage2/asm/%.obj: %.asm always

@@ -10,17 +10,19 @@
 #include <arch/i686/io.h>
 #include <arch/i686/irq.h>
 #include <arch/i686/basicfunc.h>
-#include "../version.h"
+#include "../libs/version.h"
+#include "../libs/boot/bootparams.h"
 
 extern uint8_t __bss_start;
 extern uint8_t __end;
 
 void timer(Registers* regs)
 {
-    printf(".");
+    int uptime;
+    uptime++;
 }
 
-void __attribute__((section(".entry"))) start(uint16_t bootDrive) {
+void __attribute__((section(".entry"))) start(BootParams* bootParams) {
 
     // print logo
     clrscr();
@@ -35,6 +37,13 @@ void __attribute__((section(".entry"))) start(uint16_t bootDrive) {
     printf("Done!\n\n\n\n\n");
 
     i686_IRQ_RegisterHandler(0, timer);
+    printf("Boot Device: %x\n", bootParams->BootDevice);
+    printf("Memory Region Count: %x\n", bootParams->Memory.RegionCount);
+    for (int i = 0; i < bootParams->Memory.RegionCount; i++) {
+        printf("Memory: start=0x%llx length=0x%llx type=0x%x\n", 
+        bootParams->Memory.Regions[i].Begin, bootParams->Memory.Regions[i].Length, bootParams->Memory.Regions[i].Type);
+    }
+
 
 
 end:

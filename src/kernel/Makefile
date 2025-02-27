@@ -6,7 +6,9 @@ TARGET_LINKFLAGS += -T linker.ld -nostdlib
 HEADERS_C = $(wildcard *.h) \
 			$(wildcard */*.h) \
 			$(wildcard */*/*.h) \
-			$(wildcard */*/*/*.h)
+			$(wildcard */*/*/*.h) \
+			$(wildcard ../libs/*.h) \
+			$(wildcard ../libs/*/*.h) 
 
 SOURCES_C = $(wildcard *.c) \
 			$(wildcard */*.c) \

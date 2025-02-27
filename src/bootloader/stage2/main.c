@@ -10,13 +10,18 @@
 #include "fat.h"
 #include "memdefs.h"
 #include "memory.h"
-#include "../../version.h"
+#include "memdetect.h"
+#include "../../libs/version.h"
+#include "../../libs/boot/bootparams.h"
+
 
 
 uint8_t* KernelLoadBuffer = (uint8_t*)MEMORY_LOAD_KERNEL;
 uint8_t* Kernel = (uint8_t*)MEMORY_KERNEL_ADDR;
+BootParams g_BootParams;
 
-typedef void (*KernelStart)();
+
+typedef void (*KernelStart)(BootParams* bootParams);
 
 void* g_data = (void*)0x20000;
 
@@ -82,6 +87,12 @@ void* g_data = (void*)0x20000;
     }
     FAT_Close(ft);
 
+    printf("Detecting Memory...\n");
+    // prep boot params
+    g_BootParams.BootDevice = bootDrive;
+    Memory_Detect(&g_BootParams.Memory);
+
+
     // load kernel from disk
     printf("Loading Kernel...");
     FAT_File* fd = FAT_Open(&disk, "/kernel.bin"); // move to /boot later????? (TM)
@@ -96,7 +107,7 @@ void* g_data = (void*)0x20000;
 
     // execute kernel
     KernelStart kernelStart = (KernelStart)Kernel;
-    kernelStart();
+    kernelStart(&g_BootParams);
 
 
 
