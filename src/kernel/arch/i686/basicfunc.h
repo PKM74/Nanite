@@ -3,4 +3,6 @@
 |Copyright (C) 2024|
 |Tyler McGurrin    |
 \*----------------*/
-#include "basicdri.h"
+#pragma once
+
+void __attribute__((cdecl)) i686_reboot();

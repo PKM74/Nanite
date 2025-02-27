@@ -7,6 +7,7 @@
 #include <arch/i686/gdt.h>
 #include <arch/i686/idt.h>
 #include <arch/i686/isr.h>
+#include <arch/i686/irq.h>
 #include <stdio.h>
 
 void HAL_Initialize() { 
@@ -21,6 +22,10 @@ void HAL_Initialize() {
     // init ISR
     printf("> Initializing ISR...");
     i686_ISR_Initialize();
+    printf("Done!\n");
+    // init IRQ
+    printf("> Initializing IRQ Handling...");
+    i686_IRQ_Initialize();
     printf("Done!\n");
 
 }

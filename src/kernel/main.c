@@ -8,13 +8,19 @@
 #include <memory.h>
 #include <hal/hal.h>
 #include <arch/i686/io.h>
-#include <arch/i686/basicdri.h>
+#include <arch/i686/irq.h>
+#include <arch/i686/basicfunc.h>
 #include "../version.h"
 
 extern uint8_t __bss_start;
 extern uint8_t __end;
 
- void __attribute__((section(".entry"))) start(uint16_t bootDrive) {
+void timer(Registers* regs)
+{
+    printf(".");
+}
+
+void __attribute__((section(".entry"))) start(uint16_t bootDrive) {
 
     // print logo
     clrscr();
@@ -26,9 +32,9 @@ extern uint8_t __end;
     printf("Initializing HAL...\n");
     HAL_Initialize();
     movecursorpos(19, 8);
-    printf("Done!\n\n\n\n");
+    printf("Done!\n\n\n\n\n");
 
-
+    i686_IRQ_RegisterHandler(0, timer);
 
 
 end:
