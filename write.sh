@@ -7,7 +7,7 @@ make
 echo ---------
 echo Finished!
 echo ---------
-read -p "Do you want to write the IMG to Floppy? (/dev/sdc) (y/n) " yn
+read -p "Do you want to write the IMG to Floppy? (/dev/sdd) (y/n) " yn
 
 case $yn in 
 	y )
@@ -15,7 +15,7 @@ case $yn in
 	echo Writing IMG to Floppy
 	echo ---------------------
 
-	sudo dd if=./build/main_floppy.img of=/dev/sdc status=progress
+	sudo dd if=./build/main_floppy.img of=/dev/sdd status=progress
 
 	echo ---------
 	echo Finished!
