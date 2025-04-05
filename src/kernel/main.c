@@ -28,7 +28,7 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     // print logo
     clrscr();
     printf("%s", LOGO);
-    printf("The Nano OS                   %s\n-------------------------------------\n", VERSION);
+    printf("The Nano OS                  %s\n-------------------------------------\n", VERSION);
     printf("Loaded Kernel!\n");
 
     // init HAL

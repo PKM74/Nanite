@@ -1,5 +1,4 @@
 .vscode/
 build/
 toolchain/
-bx_enh_dbg.ini
 src/bootloader/stage2_old
