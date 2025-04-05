@@ -11,6 +11,7 @@
 #include <arch/i686/irq.h>
 #include <arch/i686/basicfunc.h>
 #include <dri/keyboard.h>
+#include <util/param.h>
 #include "../libs/version.h"
 #include "../libs/boot/bootparams.h"
 
