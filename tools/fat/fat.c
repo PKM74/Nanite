@@ -4,7 +4,7 @@
 #include <string.h>
 #include <ctype.h>
 
-typedef uint8_t bool;
+// typedef uint8_t bool;
 #define true 1
 #define false 0
 
