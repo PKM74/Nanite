@@ -60,7 +60,7 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     // Debug Info for Memory :3 i REALLY need to make a like serial debug output thingy
     // printf("Boot Device: %x\n", bootParams->BootDevice);
     // printf("Memory Region Count: %x\n", bootParams->Memory.RegionCount);
-    // for (int i = 0; i < bootParams->Memory.RegionCount; i++) {
+    // for (int i = 0; i < bootParams->Memory.RegionCount; i++) {shell example
     //     printf("Memory: start=0x%llx length=0x%llx type=0x%x\n", 
     //     bootParams->Memory.Regions[i].Begin, bootParams->Memory.Regions[i].Length, bootParams->Memory.Regions[i].Type);
     // }
