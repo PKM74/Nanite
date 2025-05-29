@@ -15,13 +15,23 @@
 #include "../libs/version.h"
 #include "../libs/boot/bootparams.h"
 
+#define PS2_KEYBOARD_PORT 0x60
+
 extern uint8_t __bss_start;
 extern uint8_t __end;
 
+int uptime;
 void timer(Registers* regs)
 {
-    int uptime;
     uptime++;
+}
+
+int keyboard_scancode;
+void keyboard()
+{
+    keyboard_scancode = i686_inb(PS2_KEYBOARD_PORT);
+    // Debug Message, need to make a serial output thingy :)
+    // printf("Keycode = %d Port = %d\n", keycode, PS2_KEYBOARD_PORT);
 }
 
 void __attribute__((section(".entry"))) start(BootParams* bootParams) {
@@ -40,10 +50,12 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
 
     i686_IRQ_RegisterHandler(0, timer);
     printf("Load Keyboard Driver...");
-    Keyboard_Init();
+    i686_IRQ_RegisterHandler(1, keyboard);
     printf("Done!\n");
+    printf("%d", uptime);
 
-    // Debug Info for Memory :3
+
+    // Debug Info for Memory :3 i REALLY need to make a like serial debug output thingy
     // printf("Boot Device: %x\n", bootParams->BootDevice);
     // printf("Memory Region Count: %x\n", bootParams->Memory.RegionCount);
     // for (int i = 0; i < bootParams->Memory.RegionCount; i++) {
