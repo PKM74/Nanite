@@ -1,6 +1,6 @@
 /*----------------*\
 |Nanite OS         |
-|Copyright (C) 2024|
+|Copyright (C) 2025|
 |Tyler McGurrin    |
 \*----------------*/
 #include <stdint.h>
@@ -24,6 +24,8 @@ int uptime;
 void timer(Registers* regs)
 {
     uptime++;
+    printf("%d", uptime);
+    movecursorpos(8,14);
 }
 
 int keyboard_scancode;
@@ -52,7 +54,7 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     printf("Load Keyboard Driver...");
     i686_IRQ_RegisterHandler(1, keyboard);
     printf("Done!\n");
-    printf("%d", uptime);
+    printf("Uptime: ");
 
 
     // Debug Info for Memory :3 i REALLY need to make a like serial debug output thingy
