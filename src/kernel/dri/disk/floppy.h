@@ -6,3 +6,4 @@
 #pragma once
 
 int Master_FDD_Detect();
+int Slave_FDD_Detect();

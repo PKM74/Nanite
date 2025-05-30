@@ -35,3 +35,27 @@ int Master_FDD_Detect()
     }
     return FDDType;
 }
+
+int Slave_FDD_Detect()
+{
+    int Buffer;
+    int FDDType;
+    /* FDD Drive Values
+    Value:  Drive Type:
+     00h 	 no drive
+     01h 	 360 KB 5.25 Drive
+     02h	 1.2 MB 5.25 Drive
+     03h 	 720 KB 3.5 Drive
+     04h 	 1.44 MB 3.5 Drive
+     05h     2.88 MB 3.5 drive*/
+    Buffer = i686_inb(PORT_FLOPPY_TYPE);
+
+    int bit = Byte_Parse(Buffer, 4); 
+    int i = 5;
+    while(i < 8) {
+        FDDType = bit & bit;
+        bit = Byte_Parse(Buffer, i);
+        i++;
+    }
+    return FDDType;
+}

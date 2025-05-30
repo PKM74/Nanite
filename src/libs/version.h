@@ -6,5 +6,5 @@
 #pragma once
 // Version Info MUST stay on line 9! (it gets incremented on build!)
 #define LOGO "    _   _____    _   __________________\n   / | / /   |  / | / /  _/_  __/ ____/\n  /  |/ / /| | /  |/ // /  / / / __/   \n / /|  / ___ |/ /|  // /  / / / /___   \n/_/ |_/_/  |_/_/ |_/___/ /_/ /_____/   \n"
-#define VERSION "RD-00008"
+#define VERSION "RD-00010"
 #define BOOTLOGO "    _   ______  ____  ____ ______\n   / | / / __ )/ __ \\/ __ /_  __/\n  /  |/ / __  / / / / / / // /   \n / /|  / /_/ / /_/ / /_/ // /    \n/_/ |_/_____/\\____/\\____//_/     \n"
