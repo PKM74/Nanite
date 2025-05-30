@@ -16,6 +16,7 @@
 #include <dri/disk/floppy.h>
 #include <dri/disk/ata.h>
 #include <util/param.h>
+#include <util/util.h>
 #include "../libs/version.h"
 #include "../libs/boot/bootparams.h"
 
@@ -65,18 +66,10 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     printf("Done!\n");
 
     printf("Load Basic Storage Drivers...");
-    masterFDDType = Master_FDD_Detect();
-    slaveFDDType = Slave_FDD_Detect();
+    i686_IRQ_RegisterHandler(6, Floppy_Handler);
     printf("Done!\n");
-    // Nightmare to print the Storage Types. 
-    // Im gonna Make a Full Function For Showing ATA and FDD Types in Util.h later on,
-    // this IS temporary.
-    if (masterFDDType == 0) printf("No Master Floppy Drive Detected!\n");
-    if (masterFDDType == 1) printf("Master Floppy Drive Detected!\nType: 360 KB 5.25 Inch Drive\n");
-    if (masterFDDType == 2) printf("Master Floppy Drive Detected!\nType: 1.2 MB 5.25 Inch Drive\n");
-    if (masterFDDType == 3) printf("Master Floppy Drive Detected!\nType: 720 KB 3.5 Inch Drive\n");
-    if (masterFDDType == 4) printf("Master Floppy Drive Detected!\nType: 1.44 MB 3.5 Inch Drive\n");
-    if (masterFDDType == 5) printf("Master Floppy Drive Detected!\nType: 2.88 MB 3.5 Inch Drive\n");
+
+
 
 
     // Debug Info for Memory :3 i REALLY need to make a like serial debug output thingy

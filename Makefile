@@ -5,7 +5,10 @@ include build_scripts/config.mk
 all: floppy_image tools_fat
 
 include build_scripts/toolchain.mk
-
+# oldnum = cat version
+# newnum = expr $(oldnum) + 1
+# export oldnum
+# export newnum
 
 #
 # Floppy image
@@ -58,8 +61,12 @@ $(BUILD_DIR)/tools/fat: always tools/fat/fat.c
 #
 # Always
 #
-always:
+always:  
 	mkdir -p $(BUILD_DIR)
+#	echo Version $(oldnum)
+#	sed -i '9i s/#define VERSION "RD-//#define VERSION "RD-$(newnum)/"' src/libs/version.h
+
+
 
 #
 # Clean
