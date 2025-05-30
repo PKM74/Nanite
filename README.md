@@ -1,4 +1,8 @@
 # Nanite
+![GitHub Issues or Pull Requests by label](https://img.shields.io/github/issues/PKM74/Nanite)
+![language count](https://img.shields.io/github/languages/count/PKM74/Nanite)
+![repo size](https://img.shields.io/github/repo-size/PKM74/Nanite)
+
 Very small OS that can run on X86 Hardware.
 Designed to run from just one 1.44MB floppy disk, ATA support coming soon! (TM)
 
