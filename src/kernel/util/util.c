@@ -19,3 +19,4 @@ void append(char s[], char n) {
     s[len] = n;
     s[len + 1] = '\0';
 }
+

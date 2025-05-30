@@ -1,3 +1,8 @@
+;/////////////////////;
+;Nanite OS            ;
+;COPYRIGHT (C) 2025   ;
+;Tyler McGurrin       ;
+;/////////////////////;
 [bits 32]
 
 global i686_reboot

@@ -6,7 +6,6 @@
 #include "shell.h"
 
 #include <stdio.h>
-#include "c_scan.h"
 
 char* cursor = "=>";
 
@@ -20,7 +19,6 @@ void shell()
     printf("NANITE Rescue Shell");
     while(1 == 1) {
         printf("%s", cursor);
-        c_scanf("");
     }
 
 }
