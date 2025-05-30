@@ -1,5 +1,6 @@
 # Nanite
 ![GitHub Issues or Pull Requests by label](https://img.shields.io/github/issues/PKM74/Nanite)
+![GitHub Commits](https://img.shields.io/github/commit-activity/t/PKM74/Nanite)
 ![language count](https://img.shields.io/github/languages/count/PKM74/Nanite)
 ![top language](https://img.shields.io/github/languages/top/PKM74/Nanite)
 ![repo size](https://img.shields.io/github/repo-size/PKM74/Nanite)
