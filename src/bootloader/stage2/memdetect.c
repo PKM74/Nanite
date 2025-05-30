@@ -1,6 +1,6 @@
 /*----------------*\
 |Nanite OS         |
-|Copyright (C) 2024|
+|Copyright (C) 2025|
 |Tyler McGurrin    |
 \*----------------*/
 #include "x86.h"
@@ -29,8 +29,8 @@ void Memory_Detect(MemoryInfo* memoryInfo)
         g_MemRegions[g_MemRegionCount].ACPI = block.ACPI;
         ++g_MemRegionCount;
 
-        printf("E820: base=0x%llx length=0x%llx type=0x%x\n", block.Base, block.Length, block.Type);
-
+        // printf("E820: base=0x%llx length=0x%llx type=0x%x\n", block.Base, block.Length, block.Type);
+        // MAKE IT SHUT THE FUCK UP
         ret = x86_E820GetNextBlock(&block, &continuation);
     }
 

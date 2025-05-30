@@ -7,4 +7,5 @@ They should be seperated via commas **WITHOUT ANY SPACES!**
 
 - `quietkb` : Makes Keyboard Driver NOT Auto Output pressed keys to Video
 
-## NOTE: THIS IS NOT CURRENTLY FULLY IMPLEMENTED!
+## NOTE: THIS IS NOT CURRENTLY FULLY IMPLEMENTED! 
+(or Really At all For now... Need to make the damn disk calls)

@@ -11,6 +11,10 @@
 #include <arch/i686/irq.h>
 #include <arch/i686/basicfunc.h>
 #include <dri/keyboard.h>
+#include <dri/cmos.h>
+#include <dri/fat.h>
+#include <dri/disk/floppy.h>
+#include <dri/disk/ata.h>
 #include <util/param.h>
 #include "../libs/version.h"
 #include "../libs/boot/bootparams.h"
@@ -20,12 +24,14 @@
 extern uint8_t __bss_start;
 extern uint8_t __end;
 
+int masterFDDType;
+
 int uptime;
 void timer(Registers* regs)
 {
     uptime++;
-    printf("%d", uptime);
-    movecursorpos(8,14);
+    // printf("%d", uptime);
+    // movecursorpos(8,14);
 }
 
 int keyboard_scancode;
@@ -49,12 +55,18 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     HAL_Initialize();
     movecursorpos(19, 8);
     printf("Done!\n\n\n\n\n");
-
     i686_IRQ_RegisterHandler(0, timer);
+    i686_IRQ_RegisterHandler(8, CMOS_RTC_Handler);
+
+    // Begin Loading Basic Drivers
     printf("Load Keyboard Driver...");
     i686_IRQ_RegisterHandler(1, keyboard);
     printf("Done!\n");
-    printf("Uptime: ");
+
+    printf("Load Basic Storage Drivers...");
+    masterFDDType = Master_FDD_Detect();
+    printf("Done!\n");
+    printf("Master FDD Type: %d", masterFDDType);
 
 
     // Debug Info for Memory :3 i REALLY need to make a like serial debug output thingy
