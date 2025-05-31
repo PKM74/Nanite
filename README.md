@@ -18,10 +18,16 @@ A funtioning Bootloader and half working kernel.
 Also some tools for the FAT filesystem (host system).
 Kernel is currently under heavy development.
 
-## How To Build
+## Building
 You Basically Run `./build.sh` to build it
 
 If you wanted to write it to a floppy disk you can use `write.sh` tho be careful as the value for what drive it uses is hard coded as /dev/sdb
+
+### Build Requirements
+- mtools
+- make
+- gcc (or really any C compiler)
+- NASM
 
 ## How is Testing Done
 Testing is mostly done with QEMU These days, but I do sometimes pull out my Dell Latitude D610 to test on (for anyone wondering its completely maxed out. [2GB of ram Pentium M @ 2.23GHz])
