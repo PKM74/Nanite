@@ -12,6 +12,7 @@
 #include <arch/i686/basicfunc.h>
 #include <dri/keyboard.h>
 #include <dri/cmos.h>
+#include <dri/serial.h>
 #include <dri/fat.h>
 #include <dri/disk/floppy.h>
 #include <dri/disk/ata.h>
@@ -57,8 +58,10 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     HAL_Initialize();
     movecursorpos(19, 8);
     printf("Done!\n\n\n\n\n");
+    Init_Serial(COM1_PORT, 9600);
     i686_IRQ_RegisterHandler(0, timer);
     i686_IRQ_RegisterHandler(8, CMOS_RTC_Handler);
+    i686_IRQ_RegisterHandler(4, COM1_Serial_Handler);
 
     // Begin Loading Basic Drivers
     printf("Load Keyboard Driver...");
@@ -72,7 +75,8 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     slaveFDDType = Slave_FDD_Detect();
     Floppy_Drive_Start(1);
     Print_Storage_Types(masterFDDType, slaveFDDType);
-    printf("Kernel Params: %s\n", bootParams->KernelParams);
+    // printf("Kernel Params: %s\n", bootParams->KernelParams);
+    Serial_Printf(COM1_PORT, "Hello World!");
 
 
 
