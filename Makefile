@@ -23,7 +23,7 @@ $(BUILD_DIR)/main_floppy.img: bootloader kernel
 	mmd -i $(BUILD_DIR)/main_floppy.img "::misc"
 	mcopy -v -i $(BUILD_DIR)/main_floppy.img $(BUILD_DIR)/kernel.bin "::boot"
 	mcopy -i $(BUILD_DIR)/main_floppy.img $(BUILD_DIR)/nboot.bin "::nboot.bin"
-	mcopy -v -i $(BUILD_DIR)/main_floppy.img kernelparams "::boot"
+	mcopy -v -i $(BUILD_DIR)/main_floppy.img kparams "::boot"
 	mcopy -v -i $(BUILD_DIR)/main_floppy.img test "::boot"
 
 #

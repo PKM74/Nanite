@@ -4,10 +4,12 @@
 |Tyler McGurrin    |
 \*----------------*/
 #include <stdint.h>
+#include <stddef.h>
 #include "stdio.h"
 #include "x86.h"
 #include "disk.h"
 #include "fat.h"
+#include "string.h"
 #include "memdefs.h"
 #include "memory.h"
 #include "memdetect.h"
@@ -72,7 +74,7 @@ void* g_data = (void*)0x20000;
     // test fat driver
     printf("Testing FAT Driver...");
         // read test.txt
-    FAT_File* ft = FAT_Open(&disk, "/test");
+    FAT_File* ft = FAT_Open(&disk, "/test.x");
     char buffer[100];
     uint32_t testread;
     while ((testread = FAT_Read(&disk, ft, sizeof(buffer), buffer)))
@@ -92,17 +94,20 @@ void* g_data = (void*)0x20000;
     Memory_Detect(&g_BootParams.Memory);
     printf("Done!\n");
     // kernel params...
-    FAT_File* kp = FAT_Open(&disk, "/kernelparams");
-    char kparams;
+    FAT_File* kp = FAT_Open(&disk, "/kparams.x");
+    char* kparams;
     uint32_t kernelparams;
-    while ((kernelparams = FAT_Read(&disk, kp, sizeof(buffer), buffer)))
+    char* buffer2[100];
+    while ((kernelparams = FAT_Read(&disk, kp, sizeof(buffer2), buffer2)))
     {
         for (uint32_t i = 0; i < kernelparams; i++)
         {
-            memcpy();
+            strcpy(kparams, buffer2[i]);
         }
     }
     FAT_Close(kp);
+    printf("Kernel Params: %s\n", kparams);
+    g_BootParams.KernelParams = kparams;
 
     // load kernel from disk
     printf("Loading Kernel...");

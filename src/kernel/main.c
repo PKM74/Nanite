@@ -72,6 +72,7 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     slaveFDDType = Slave_FDD_Detect();
     Floppy_Drive_Start(1);
     Print_Storage_Types(masterFDDType, slaveFDDType);
+    printf("Kernel Params: %s\n", bootParams->KernelParams);
 
 
 
