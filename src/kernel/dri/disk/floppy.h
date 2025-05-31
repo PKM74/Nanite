@@ -5,8 +5,10 @@
 \*----------------*/
 #pragma once
 
-void Floppy_Handler();
+#include <stdint.h>
 
+void Floppy_Handler();
+void Floppy_Drive_Start(uint8_t drive);
 
 
 /* DOR Command Table

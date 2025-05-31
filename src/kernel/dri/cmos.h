@@ -7,8 +7,6 @@
 
 #include <stdint.h>
 
-#define BCD2BIN(bcd) ((((bcd)&15) + ((bcd)>>4)*10))
-
 void CMOS_RTC_Handler();
 int Master_FDD_Detect();
 int Slave_FDD_Detect();

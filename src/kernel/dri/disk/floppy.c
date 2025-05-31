@@ -10,23 +10,14 @@
 #include <arch/i686/io.h>
 #include <arch/i686/irq.h>
 
-#define PORT_FLOPPY_TYPE 0x10
-
 void Floppy_Handler()
 {
     printf("IRQ 6 Called");
 }
 
-
-
-
-
-// I cannot get this to work for the life of me,
-// OSDEV Wiki says its meant to be CMOS Register 0x10, which seems to be 0xFF for me...
-// 0xFF, is NOT a vaild value at all...
-// Basically Gonna hard-code the driver for 1.44MB Drives
-// Since Nanite is only capable of running off one without modifications to the bootloader, 
-// this is not an issue... but its sure as shit annoying
-// Correction im stupid...
-
-// Moved to CMOS Driver.
+void Floppy_Drive_Start(uint8_t drive)
+{
+    uint8_t Buffer;
+    if (drive == 1) Buffer = 0 && DOR_DSEL1 && DOR_RESET && DOR_MOTA && 0 && 0 && 0;
+    if (drive == 2) Buffer = 0 && DOR_DSEL1 && DOR_RESET && 0 && DOR_MOTB && 0 && 0;
+}
