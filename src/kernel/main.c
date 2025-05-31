@@ -42,7 +42,7 @@ void keyboard()
 {
     keyboard_scancode = i686_inb(PS2_KEYBOARD_PORT);
     // Debug Message, need to make a serial output thingy :)
-    // printf("Keycode = %d Port = %d\n", keycode, PS2_KEYBOARD_PORT);
+    Serial_Printf(COM1_PORT, "Keycode = %d Port = %d\n", keyboard_scancode, PS2_KEYBOARD_PORT);
 }
 
 void __attribute__((section(".entry"))) start(BootParams* bootParams) {
@@ -76,18 +76,18 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     Floppy_Drive_Start(1);
     Print_Storage_Types(masterFDDType, slaveFDDType);
     // printf("Kernel Params: %s\n", bootParams->KernelParams);
-    Serial_Printf(COM1_PORT, "Hello World!");
 
 
 
 
-    // Debug Info for Memory :3 i REALLY need to make a like serial debug output thingy
-    // printf("Boot Device: %x\n", bootParams->BootDevice);
-    // printf("Memory Region Count: %x\n", bootParams->Memory.RegionCount);
-    // for (int i = 0; i < bootParams->Memory.RegionCount; i++) {shell example
-    //     printf("Memory: start=0x%llx length=0x%llx type=0x%x\n", 
-    //     bootParams->Memory.Regions[i].Begin, bootParams->Memory.Regions[i].Length, bootParams->Memory.Regions[i].Type);
-    // }
+    // Debug Info for Memory
+    Serial_Printf(COM1_PORT, "Memory Debug Info:\n");
+    Serial_Printf(COM1_PORT, "Boot Device: %x\n", bootParams->BootDevice);
+    Serial_Printf(COM1_PORT, "Memory Region Count: %x\n", bootParams->Memory.RegionCount);
+    for (int i = 0; i < bootParams->Memory.RegionCount; i++) {
+        Serial_Printf(COM1_PORT, "Memory: start=0x%llx length=0x%llx type=0x%x\n", 
+        bootParams->Memory.Regions[i].Begin, bootParams->Memory.Regions[i].Length, bootParams->Memory.Regions[i].Type);
+    }
 
 
 

@@ -21,10 +21,12 @@ $(BUILD_DIR)/main_floppy.img: bootloader kernel
 	dd if=$(BUILD_DIR)/stage1.bin of=$(BUILD_DIR)/main_floppy.img conv=notrunc
 	mmd -i $(BUILD_DIR)/main_floppy.img "::boot"
 	mmd -i $(BUILD_DIR)/main_floppy.img "::misc"
+	mmd -i $(BUILD_DIR)/main_floppy.img "::misc/src"
 	mcopy -v -i $(BUILD_DIR)/main_floppy.img $(BUILD_DIR)/kernel.bin "::boot"
-	mcopy -i $(BUILD_DIR)/main_floppy.img $(BUILD_DIR)/nboot.bin "::nboot.bin"
-	mcopy -v -i $(BUILD_DIR)/main_floppy.img kparams "::boot"
+	mcopy -v -i $(BUILD_DIR)/main_floppy.img $(BUILD_DIR)/nboot.bin "::nboot.bin"
 	mcopy -v -i $(BUILD_DIR)/main_floppy.img test "::boot"
+	mcopy -v -i $(BUILD_DIR)/main_floppy.img kparams "::boot"
+	mcopy -s -i $(BUILD_DIR)/main_floppy.img src/* "::misc/src"
 
 #
 # Bootloader
