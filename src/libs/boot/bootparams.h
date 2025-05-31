@@ -22,5 +22,6 @@ typedef struct
 
 typedef struct {
     MemoryInfo Memory;
+    char KernelParams;
     uint8_t BootDevice;
 } BootParams;

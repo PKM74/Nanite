@@ -6,8 +6,10 @@
 #pragma once
 
 void Print_Key(int scancode);
-
-typedef enum { // ill do it LATER!
+// Scancodes for a QWERTY layout;
+// Will add support for alt layouts like for example DVORAK (my layout of choice)
+// Kinda need to tbh, cuz even with QEMU i can't type lolololol
+typedef enum { 
 	KEYSCAN_ESC = 1 ,
 	KEYSCAN_1 = 2 ,
 	KEYSCAN_2 = 3 ,

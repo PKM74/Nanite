@@ -67,31 +67,44 @@ void* g_data = (void*)0x20000;
         printf("Failed!\nDisk Initialization Error!\n");
         goto end;
     }
-    printf("Done!\n");
+    // printf("Done!\n");
 
-    // test fat driver
-    printf("Testing FAT Driver...");
-        // read test.txt
-    FAT_File* ft = FAT_Open(&disk, "/");
-    char buffer[100];
-    uint32_t testread;
-    ft = FAT_Open(&disk, "test.txt"); // move test.txt in MISC folder later (TM)
-    while ((testread = FAT_Read(&disk, ft, sizeof(buffer), buffer)))
-    {
-        for (uint32_t i = 0; i < testread; i++)
-        {
-            if (buffer[i] == '\n')
-                putc('\r');
-            putc(buffer[i]);
-        }
-    }
-    FAT_Close(ft);
+    // // test fat driver
+    // printf("Testing FAT Driver...");
+    //     // read test.txt
+    // FAT_File* ft = FAT_Open(&disk, "/misc");
+    // char buffer[100];
+    // uint32_t testread;
+    // ft = FAT_Open(&disk, "test"); // move test.txt in MISC folder later (TM)
+    // while ((testread = FAT_Read(&disk, ft, sizeof(buffer), buffer)))
+    // {
+    //     for (uint32_t i = 0; i < testread; i++)
+    //     {
+    //         if (buffer[i] == '\n')
+    //             putc('\r');
+    //         putc(buffer[i]);
+    //     }
+    // }
+    // FAT_Close(ft);
 
-    printf("Detecting Memory...\n");
+    printf("Detecting Memory...");
     // prep boot params
     g_BootParams.BootDevice = bootDrive;
     Memory_Detect(&g_BootParams.Memory);
-
+    printf("Done!\n");
+    // // kernel params...
+    // FAT_File* kp = FAT_Open(&disk, "/misc");
+    // uint32_t kernelparams;
+    // while ((kernelparams = FAT_Read(&disk, kp, sizeof(buffer), buffer)))
+    // {
+    //     for (uint32_t i = 0; i < kernelparams; i++)
+    //     {
+    //         if (buffer[i] == '\n')
+    //             putc('\r');
+    //         putc(buffer[i]);
+    //     }
+    // }
+    // FAT_Close(kp);
 
     // load kernel from disk
     printf("Loading Kernel...");
