@@ -73,7 +73,7 @@ start:
     push es
     mov ah, 08h
     int 13h
-    jc floppy_error
+    jc error
     pop es
 
     and cl, 0x3F                        ; remove top 2 bits
@@ -111,9 +111,28 @@ start:
     mov bx, buffer                      ; es:bx = buffer
     call disk_read
 
-    ; search for kernel.bin
+    ; search for stage2
     xor bx, bx
     mov di, buffer
+
+; .search_boot_dir:
+;     mov si, boot_dir
+;     mov cx, 11                          ; compare up to 11 characters
+;     push di
+;     repe cmpsb
+;     pop di
+;     je .found_boot_dir
+
+;     add di, 32
+;     inc bx
+;     cmp bx, [bdb_dir_entries_count]
+;     jl .search_boot_dir
+
+;     ; kernel not found
+;     jmp error
+
+; .found_boot_dir:
+;     hlt
 
 .search_stage2:
     mov si, file_stage2_bin
@@ -129,7 +148,7 @@ start:
     jl .search_stage2
 
     ; kernel not found
-    jmp stage2_not_found_error
+    jmp error
 
 .found_stage2:
 
@@ -209,16 +228,11 @@ start:
 
 
 ;
-; Error handlers
+; Error handler (i needed more room.)
 ;
 
-floppy_error:
-    mov si, msg_read_failed
-    call puts
-    jmp wait_key_and_reboot
-
-stage2_not_found_error:
-    mov si, msg_no_stage2
+error:
+    mov si, msg_error
     call puts
     jmp wait_key_and_reboot
 
@@ -339,7 +353,7 @@ disk_read:
 
 .fail:
     ; all attempts are exhausted
-    jmp floppy_error
+    jmp error
 
 .done:
     popa
@@ -362,15 +376,15 @@ disk_reset:
     mov ah, 0
     stc
     int 13h
-    jc floppy_error
+    jc error
     popa
     ret
 
 
-msg_loading:			db '', ENDL, 0
-msg_read_failed:		db 'Cant Read Disk!', ENDL, 0	
-msg_no_stage2:			db 'Cant Find Stage 2!', ENDL, 0	
-file_stage2_bin:		db 'STAGE2  BIN'
+msg_loading:			db 'Loading NBOOT...', ENDL, 0
+msg_error:		    	db 'ERR!', ENDL, 0	
+file_stage2_bin:		db 'NBOOT   BIN'
+boot_dir:        		db 'BOOT       '
 stage2_cluster:			dw 0
 
 STAGE2_LOAD_SEGMENT		equ 0x0

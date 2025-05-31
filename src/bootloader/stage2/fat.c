@@ -325,7 +325,7 @@ FAT_File* FAT_Open(DISK* disk, const char* path)
     // ignore leading slash
     if (path[0] == '/')
         path++;
-    printf("Path: %s\r\n", path);
+
     FAT_File* current = &g_Data->RootDirectory.Public;
 
     while (*path) {
@@ -350,16 +350,9 @@ FAT_File* FAT_Open(DISK* disk, const char* path)
         
         // find directory entry in current directory
         FAT_DirectoryEntry entry;
-        if (!FAT_FindFile(disk, current, name, &entry))
+        if (FAT_FindFile(disk, current, name, &entry))
         {
             FAT_Close(current);
-
-            printf("FAT: %s not found\r\n", name);
-            return NULL;
-        } else
-        {
-            FAT_Close(current);
-            printf("We make it here.\r\n");
 
             // check if directory
             if (!isLast && entry.Attributes & FAT_ATTRIBUTE_DIRECTORY == 0)
@@ -370,6 +363,13 @@ FAT_File* FAT_Open(DISK* disk, const char* path)
 
             // open new directory entry
             current = FAT_OpenEntry(disk, &entry);
+        }
+        else
+        {
+            FAT_Close(current);
+
+            printf("FAT: %s not found\r\n", name);
+            return NULL;
         }
     }
 
