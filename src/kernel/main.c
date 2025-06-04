@@ -28,9 +28,6 @@ extern uint8_t __end;
 
 uint16_t DEBUG_COM_PORT = COM1_PORT;
 
-int masterFDDType;
-int slaveFDDType;
-
 int uptime;
 void timer(Registers* regs)
 {
@@ -39,13 +36,6 @@ void timer(Registers* regs)
     // movecursorpos(8,14);
 }
 
-int keyboard_scancode;
-void keyboard()
-{
-    keyboard_scancode = inb(PS2_KEYBOARD_PORT);
-    // Debug Message, need to make a serial output thingy :)
-    Serial_Printf(DEBUG_COM_PORT, "Keycode = %d Port = %d\n", keyboard_scancode, PS2_KEYBOARD_PORT);
-}
 
 void __attribute__((section(".entry"))) start(BootParams* bootParams) {
 
@@ -60,22 +50,22 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     HAL_Initialize();
     movecursorpos(19, 8);
     printf("Done!\n\n\n\n\n");
-    Init_Serial(DEBUG_COM_PORT, 9600);
+
+    // Register IRQs
+    printf("Registering IRQs...");
     IRQ_RegisterHandler(0, timer);
-    IRQ_RegisterHandler(8, CMOS_RTC_Handler);
+    IRQ_RegisterHandler(1, Keyboard_Handler);
     IRQ_RegisterHandler(4, COM1_Serial_Handler);
-
-    // Begin Loading Basic Drivers
-    printf("Load Keyboard Driver...");
-    IRQ_RegisterHandler(1, keyboard);
-    printf("Done!\n");
-
-    printf("Load Basic Storage Drivers...");
     IRQ_RegisterHandler(6, Floppy_Handler);
+    IRQ_RegisterHandler(8, CMOS_RTC_Handler);
     printf("Done!\n");
-    masterFDDType = Master_FDD_Detect();
-    slaveFDDType = Slave_FDD_Detect();
+
+    // Init Drivers
+    printf("Initializing Basic Drivers...");
+    Serial_Init(DEBUG_COM_PORT, 9600);
+    Keyboard_Init();
     Floppy_Init();
+    printf("Done!\n");
 
 
 

@@ -5,92 +5,56 @@
 \*----------------*/
 #pragma once
 
-void Print_Key(int scancode);
-// Scancodes for a QWERTY layout;
-// Will add support for alt layouts like for example DVORAK (my layout of choice)
-// Kinda need to tbh, cuz even with QEMU i can't type lolololol
-typedef enum { 
-	KEYSCAN_ESC = 1 ,
-	KEYSCAN_1 = 2 ,
-	KEYSCAN_2 = 3 ,
-	KEYSCAN_3 = 4 ,
-	KEYSCAN_4 = 5 ,
-	KEYSCAN_5 = 6 ,
-	KEYSCAN_6 = 7 ,
-	KEYSCAN_7 = 8 ,
-	KEYSCAN_8 = 9 ,
-	KEYSCAN_9 = 10,
-	KEYSCAN_0 = 11,
-	KEYSCAN_Minus = 12,
-	KEYSCAN_Equals = 13,
-	KEYSCAN_BackSpace = 14,
-	KEYSCAN_Tab = 15,
-	KEYSCAN_Q = 16,
-	KEYSCAN_W = 17,
-	KEYSCAN_E = 18,
-	KEYSCAN_R = 19,
-	KEYSCAN_T = 20,
-	KEYSCAN_Y = 21,
-	KEYSCAN_U = 22,
-	KEYSCAN_I = 23,
-	KEYSCAN_O = 24,
-	KEYSCAN_P = 25,
-	KEYSCAN_LeftBracket = 26,
-	KEYSCAN_RightBracket = 27,
-	KEYSCAN_Enter = 28,
-	KEYSCAN_CTRL = 29,
-	KEYSCAN_A = 30,
-	KEYSCAN_S = 31,
-	KEYSCAN_D = 32,
-	KEYSCAN_F = 33,
-	KEYSCAN_G = 34,
-	KEYSCAN_H = 35,
-	KEYSCAN_J = 36,
-	KEYSCAN_K = 37,
-	KEYSCAN_L = 38,
-	KEYSCAN_Semicolon = 39,
-	KEYSCAN_Apostrophe = 40,
-	KEYSCAN_Grave = 41,
-	KEYSCAN_LShift = 42,
-	KEYSCAN_Backslash = 43,
-	KEYSCAN_Z = 44,
-	KEYSCAN_X = 45,
-	KEYSCAN_C = 46,
-	KEYSCAN_V = 47,
-	KEYSCAN_B = 48,
-	KEYSCAN_N = 49,
-	KEYSCAN_M = 50,
-	KEYSCAN_Comma = 51,
-	KEYSCAN_Period = 52,
-	KEYSCAN_Forwardslash = 53,
-	KEYSCAN_RShift = 54,
-	KEYSCAN_PrtSc = 55,
-	KEYSCAN_Alt = 56,
-	KEYSCAN_Space = 57,
-	KEYSCAN_Caps = 58,
-	KEYSCAN_F1 = 59,
-	KEYSCAN_F2 = 60,
-	KEYSCAN_F3 = 61,
-	KEYSCAN_F4 = 62,
-	KEYSCAN_F5 = 63,
-	KEYSCAN_F6 = 64,
-	KEYSCAN_F7 = 65,
-	KEYSCAN_F8 = 66,
-	KEYSCAN_F9 = 67,
-	KEYSCAN_F10 = 68,
-	KEYSCAN_Num = 69,
-	KEYSCAN_Scroll = 70,
-	KEYSCAN_Home = 71,
-	KEYSCAN_Up = 72,
-	KEYSCAN_PgUp = 73,
-	KEYSCAN_Minus2 = 74,
-	KEYSCAN_Left = 75,
-	KEYSCAN_Center = 76,
-	KEYSCAN_Right = 77,
-	KEYSCAN_Plus = 78,
-	KEYSCAN_End = 79,
-	KEYSCAN_Down = 80,
-	KEYSCAN_PgDn = 81,
-	KEYSCAN_Ins = 82,
-	KEYSCAN_Delete = 83
-} Scancodes;
+#include <stdint.h>
+#include <stdbool.h>
+
+void Keyboard_Handler();
+void Keyboard_Init();
+void Keyboard_Reset_System();
+void Keyboard_Enable();
+void Keyboard_Disable();
+void Keyboard_Set_Lock_LEDs(bool num, bool caps, bool scroll);
+void Keyboard_Encoder_Send_Command(uint8_t command);
+void Keyboard_Controller_Send_Command(uint8_t command);
+uint8_t Keyboard_Controller_Status();
+uint8_t Keyboard_Read_Encoder_Buffer();
+bool Keyboard_Self_Test();
+
+
+
+enum KEYBOARD_ENCODER_IO {
+
+	KEYBOARD_ENC_INPUT_BUF				= 0x60,
+	KEYBOARD_ENC_CMD_REG				= 0x60
+};
+ 
+enum KEYBOARD_CTRL_IO {
+ 
+	KEYBOARD_CTRL_STATS_REG				= 0x64,
+	KEYBOARD_CTRL_CMD_REG				= 0x64
+};
+
+enum KEYBOARD_CTRL_STATS_MASK {
+ 
+	KEYBOARD_CTRL_STATS_MASK_OUT_BUF	= 1,		//00000001
+	KEYBOARD_CTRL_STATS_MASK_IN_BUF		= 2,		//00000010
+	KEYBOARD_CTRL_STATS_MASK_SYSTEM		= 4,		//00000100
+	KEYBOARD_CTRL_STATS_MASK_CMD_DATA	= 8,		//00001000
+	KEYBOARD_CTRL_STATS_MASK_LOCKED		= 0x10,		//00010000
+	KEYBOARD_CTRL_STATS_MASK_AUX_BUF	= 0x20,		//00100000
+	KEYBOARD_CTRL_STATS_MASK_TIMEOUT	= 0x40,		//01000000
+	KEYBOARD_CTRL_STATS_MASK_PARITY		= 0x80		//10000000
+};
+
+enum KEYBOARD_CTRL_CMD {
+
+	KEYBOARD_CTRL_CMD_DISABLE			= 0xAD,
+	KEYBOARD_CTRL_CMD_ENABLE			= 0xAE,
+	KEYBOARD_CTRL_CMD_SELF_TEST			= 0xAA,
+	KEYBOARD_CTRL_CMD_WRITE_OUT_PORT	= 0xD1
+};
+
+enum KEYBOARD_ENC_CMD {
+
+	KEYBOARD_ENC_CMD_SET_LED			= 0xED
+};

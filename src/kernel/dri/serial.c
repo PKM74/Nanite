@@ -39,7 +39,7 @@ void COM1_Serial_Handler()
     printf("IRQ 4 Triggered!");
 }
 
-int Init_Serial(uint16_t COM_Port, int Baud) 
+int Serial_Init(uint16_t COM_Port, int Baud) 
 {
     uint8_t Divisor = 115200 / Baud;
 
