@@ -24,7 +24,7 @@ void Floppy_Handler()
 {
     // IRQ Handler
     FloppyIRQRecived = 1;
-    Serial_Printf(DEBUG_COM_PORT, "Recived IRQ From Floppy Drive.\n");
+    Serial_Printf(DEBUG_COM_PORT, "FLOPPY:> Recived IRQ From FDC.\n");
 }
 
 void Floppy_IRQ_Wait()
@@ -296,13 +296,13 @@ void Floppy_Motor_Control(bool enable)
 {
 	if(enable == true) {
 		outb (FLOPPY_DOR, FLOPPY_DOR_MASK_DRIVE0_MOTOR | FLOPPY_DOR_MASK_RESET);
-		Serial_Printf(DEBUG_COM_PORT, "Starting FDD Motor.");
+		Serial_Printf(DEBUG_COM_PORT, "FLOPPY:> Starting FDD Motor.\n");
 		int i;
 		while(i >= 500) i++;
 	}
 	else {
-		outb (FLOPPY_DOR, FLOPPY_DOR_MASK_DRIVE0_MOTOR | FLOPPY_DOR_MASK_RESET);
-		Serial_Printf(DEBUG_COM_PORT, "Stopping FDD Motor.");
+		Floppy_Reset();
+		Serial_Printf(DEBUG_COM_PORT, "FLOPPY:> Stopping FDD Motor, FDC Reseting.\n");
 	}
 
 }

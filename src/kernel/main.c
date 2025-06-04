@@ -75,7 +75,7 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     printf("Done!\n");
     masterFDDType = Master_FDD_Detect();
     slaveFDDType = Slave_FDD_Detect();
-    Print_Storage_Types(masterFDDType, slaveFDDType);
+    Floppy_Init();
 
 
 
