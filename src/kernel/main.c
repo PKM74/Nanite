@@ -15,7 +15,7 @@
 #include <dri/fat.h>
 #include <dri/disk/floppy.h>
 #include <dri/disk/ata.h>
-#include <dri/hal/hal.h>
+#include <core/hal/hal.h>
 #include <util/param.h>
 #include <util/util.h>
 #include "../libs/version.h"
@@ -64,7 +64,8 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     printf("Initializing Basic Drivers...");
     Serial_Init(DEBUG_COM_PORT, 9600);
     Keyboard_Init();
-    // Floppy_Init(); // This should always be last; its slow as fuck
+    Floppy_Init(); // This should always be last; its slow as fuck
+    Floppy_Read_Sector
     printf("Done!\n");
 
 

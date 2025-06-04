@@ -11,7 +11,7 @@
 #include <arch/i686/io.h>
 #include <arch/i686/irq.h>
 #include <dri/serial.h>
-#include <dri/dma/dma.h>
+#include <core/dma/dma.h>
 
 uint8_t* DMA_BUFFER;
 
