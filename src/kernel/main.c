@@ -65,7 +65,6 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     Serial_Init(DEBUG_COM_PORT, 9600);
     Keyboard_Init();
     Floppy_Init(); // This should always be last; its slow as fuck
-    Floppy_Read_Sector
     printf("Done!\n");
 
 
