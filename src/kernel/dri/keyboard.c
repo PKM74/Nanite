@@ -36,6 +36,8 @@ void Keyboard_Handler()
 
    // If CTRL+ALT+DEL Reboot
    if(_keyboard_scancode == 224 && _ctrl == true && _alt == true) Reboot();
+	// If CTRL+ALT+ESC Shut Down
+   if(_keyboard_scancode == 1 && _ctrl == true && _alt == true); // Shutdown();
 }
 
 uint8_t Keyboard_Controller_Status() 

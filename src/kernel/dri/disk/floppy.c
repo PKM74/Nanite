@@ -11,6 +11,9 @@
 #include <arch/i686/io.h>
 #include <arch/i686/irq.h>
 #include <dri/serial.h>
+#include <dri/dma/dma.h>
+
+uint8_t* DMA_BUFFER;
 
 extern uint16_t DEBUG_COM_PORT;
 
@@ -115,6 +118,9 @@ uint8_t Floppy_Read_Data()
 void Floppy_Read_Sector_CHS(uint8_t head, uint8_t track, uint8_t sector) 
 {
 	uint32_t st0, cyl;
+
+	DMA_Init_Floppy((uint8_t*)DMA_BUFFER, 512);
+	DMA_Set_Read(FLOPPY_DMA_CHANNEL);
  
 	// set the DMA for read transfer
 	Floppy_DMA_Read();
@@ -289,7 +295,7 @@ uint8_t* Floppy_Read_Sector(int sectorLBA)
 	Floppy_Motor_Control(false);
 	
 	// this is a bit hackish, but ofc i dont care. (also still need to implement DMA lolololololol)
-	// return (uint8_t*) DMA_BUFFER;
+	return (uint8_t*) DMA_BUFFER;
 }
 
 void Floppy_Motor_Control(bool enable)

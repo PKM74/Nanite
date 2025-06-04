@@ -64,18 +64,17 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     printf("Initializing Basic Drivers...");
     Serial_Init(DEBUG_COM_PORT, 9600);
     Keyboard_Init();
-    Floppy_Init(); // This should always be last; its slow as fuck
+    // Floppy_Init(); // This should always be last; its slow as fuck
     printf("Done!\n");
 
 
 
 
     // Debug Info for Memory
-    Serial_Printf(DEBUG_COM_PORT, "Memory Debug Info:\n");
-    Serial_Printf(DEBUG_COM_PORT, "Boot Device: %x\n", bootParams->BootDevice);
-    Serial_Printf(DEBUG_COM_PORT, "Memory Region Count: %x\n", bootParams->Memory.RegionCount);
+    Serial_Printf(DEBUG_COM_PORT, "MEMORY:> Boot Device: %x\n", bootParams->BootDevice);
+    Serial_Printf(DEBUG_COM_PORT, "MEMORY:> Region Count: %x\n", bootParams->Memory.RegionCount);
     for (int i = 0; i < bootParams->Memory.RegionCount; i++) {
-        Serial_Printf(DEBUG_COM_PORT, "Memory: start=0x%llx length=0x%llx type=0x%x\n", 
+        Serial_Printf(DEBUG_COM_PORT, "MEMORY:> start=0x%llx length=0x%llx type=0x%x\n", 
         bootParams->Memory.Regions[i].Begin, bootParams->Memory.Regions[i].Length, bootParams->Memory.Regions[i].Type);
     }
 

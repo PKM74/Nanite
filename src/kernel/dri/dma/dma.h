@@ -5,12 +5,30 @@
 \*----------------*/
 #pragma once
 
+#include <stdint.h>
+#include <stdbool.h>
+
+#define FLOPPY_DMA_CHANNEL 2
+
+void DMA_Reset_Flipflop(int dma);
+void DMA_Set_Address(uint8_t channel, uint8_t low, uint8_t high);
+void DMA_Set_Count(uint8_t channel, uint8_t low, uint8_t high);
+void DMA_Set_External_Page_Register(uint8_t register, uint8_t value);
+void DMA_Set_Mode(uint8_t channel, uint8_t mode);
+void DMA_Set_Read(uint8_t channel);
+void DMA_Set_Write(uint8_t channel);
+void DMA_Mask_Channel(uint8_t channel);
+void DMA_Unmask_Channel(uint8_t channel);
+void DMA_Unmask_All(int dma);
+void DMA_Reset(int dma);
+bool DMA_Init_Floppy(uint8_t* buffer, unsigned length);
+
 enum DMA0_IO {
 
 	DMA0_STATUS_REG = 0x08,
 	DMA0_COMMAND_REG = 0x08,
 	DMA0_REQUEST_REG = 0x09,
-	DMA0_CHANMASK_REG = 0x0a,
+	DMA0_CHANNELMASK_REG = 0x0a,
 	DMA0_MODE_REG = 0x0b,
 	DMA0_CLEARBYTE_FLIPFLOP_REG = 0x0c,
 	DMA0_TEMP_REG = 0x0d,
@@ -24,7 +42,7 @@ enum DMA1_IO {
 	DMA1_STATUS_REG = 0xd0,
 	DMA1_COMMAND_REG = 0xd0,
 	DMA1_REQUEST_REG = 0xd2,
-	DMA1_CHANMASK_REG = 0xd4,
+	DMA1_CHANNELMASK_REG = 0xd4,
 	DMA1_MODE_REG = 0xd6,
 	DMA1_CLEARBYTE_FLIPFLOP_REG = 0xd8,
 	DMA1_INTER_REG = 0xda,
@@ -46,14 +64,14 @@ enum DMA0_CHANNEL_IO {
 
 enum DMA1_CHANNEL_IO {
 
-    DMA1_CHANNNEL4_ADDR_REG = 0xc0,
-    DMA1_CHANNNEL4_COUNT_REG = 0xc2,
-    DMA1_CHANNNEL5_ADDR_REG = 0xc4,
-    DMA1_CHANNNEL5_COUNT_REG = 0xc6,
-    DMA1_CHANNNEL6_ADDR_REG = 0xc8,
-    DMA1_CHANNNEL6_COUNT_REG = 0xca,
-    DMA1_CHANNNEL7_ADDR_REG = 0xcc,
-    DMA1_CHANNNEL7_COUNT_REG = 0xce,
+    DMA1_CHANNEL4_ADDR_REG = 0xc0,
+    DMA1_CHANNEL4_COUNT_REG = 0xc2,
+    DMA1_CHANNEL5_ADDR_REG = 0xc4,
+    DMA1_CHANNEL5_COUNT_REG = 0xc6,
+    DMA1_CHANNEL6_ADDR_REG = 0xc8,
+    DMA1_CHANNEL6_COUNT_REG = 0xca,
+    DMA1_CHANNEL7_ADDR_REG = 0xcc,
+    DMA1_CHANNEL7_COUNT_REG = 0xce,
 };
 
 enum DMA0_PAGE_REG {
