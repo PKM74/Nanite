@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include <arch/i686/irq.h>
 #include <arch/i686/io.h>
+#include <arch/i686/basicfunc.h>
 #include <dri/serial.h>
 #include <stdio.h>
 
@@ -23,7 +24,18 @@ extern uint16_t DEBUG_COM_PORT;
 void Keyboard_Handler()
 {
    _keyboard_scancode = inb(KEYBOARD_ENC_INPUT_BUF);
-   Serial_Printf(DEBUG_COM_PORT, "KEYBOARD:> Scancode %u Character %s\n", _keyboard_scancode);
+   Serial_Printf(DEBUG_COM_PORT, "KEYBOARD:> Scancode %u\n", _keyboard_scancode);
+
+   // CTRL + ALT + SHIFT Handlers
+   if(_keyboard_scancode == 29) _ctrl = true;
+   if(_keyboard_scancode == 157) _ctrl = false;
+   if(_keyboard_scancode == 56) _alt = true;
+   if(_keyboard_scancode == 184) _alt = false;
+   if(_keyboard_scancode == 42) _shift = true;
+   if(_keyboard_scancode == 170) _shift = false;
+
+   // If CTRL+ALT+DEL Reboot
+   if(_keyboard_scancode == 224 && _ctrl == true && _alt == true) Reboot();
 }
 
 uint8_t Keyboard_Controller_Status() 

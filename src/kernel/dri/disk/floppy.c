@@ -298,7 +298,7 @@ void Floppy_Motor_Control(bool enable)
 		outb (FLOPPY_DOR, FLOPPY_DOR_MASK_DRIVE0_MOTOR | FLOPPY_DOR_MASK_RESET);
 		Serial_Printf(DEBUG_COM_PORT, "FLOPPY:> Starting FDD Motor.\n");
 		int i;
-		while(i >= 500) i++;
+		while(i >= 50) i++;
 	}
 	else {
 		Floppy_Reset();
