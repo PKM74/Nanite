@@ -71,11 +71,11 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     printf("Done!\n");
 
     printf("Load Basic Storage Drivers...");
-    i686_IRQ_RegisterHandler(6, FLPDSK_Handler);
+    i686_IRQ_RegisterHandler(6, Floppy_Handler);
     printf("Done!\n");
     masterFDDType = Master_FDD_Detect();
     slaveFDDType = Slave_FDD_Detect();
-    FLPDSK_Drive_Init(1);
+    Floppy_Drive_Init(1);
     Print_Storage_Types(masterFDDType, slaveFDDType);
     // printf("Kernel Params: %s\n", bootParams->KernelParams);
 

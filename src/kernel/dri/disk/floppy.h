@@ -14,8 +14,8 @@ typedef struct {
     uint16_t heads;
 } FLOPPY_DISK;
 
-void FLPDSK_Handler();
-void FLPDSK_Drive_Init(uint8_t drive);
+void Floppy_Handler();
+void Floppy_Drive_Init(uint8_t drive);
 
 
 
