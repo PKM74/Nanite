@@ -14,7 +14,17 @@ uint8_t Read_CMOS(uint8_t Register);
 
 enum CMOSRegisters
 {
-    CMOS_Floppy_Register                = 0x10
+    CMOS_Floppy_Register                = 0x10,
+    CMOS_RTC_Seconds                    = 0x00,
+    CMOS_RTC_Minutes                    = 0x02,
+    CMOS_RTC_Hours                      = 0x04,
+    CMOS_RTC_Weekday                    = 0x06,
+    CMOS_RTC_Day                        = 0x07,
+    CMOS_RTC_Month                      = 0x08,
+    CMOS_RTC_Year                       = 0x09,
+    CMOS_RTC_Century                    = 0x32,
+    CMOS_RTC_StatusA                    = 0x0A,
+    CMOS_RTC_StatusB                    = 0x0B,
 };
 
 /* RTC Registers

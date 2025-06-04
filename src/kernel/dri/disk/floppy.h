@@ -7,8 +7,17 @@
 
 #include <stdint.h>
 
-void Floppy_Handler();
-void Floppy_Drive_Start(uint8_t drive);
+typedef struct {
+    uint8_t id;
+    uint16_t cylinders;
+    uint16_t sectors;
+    uint16_t heads;
+} FLOPPY_DISK;
+
+void FLPDSK_Handler();
+void FLPDSK_Drive_Init(uint8_t drive);
+
+
 
 
 /* DOR Command Table
@@ -23,13 +32,13 @@ Mnemonic bit number 	value 	meaning/usage
 */
 enum FloppyDORBitflags
 {
-   DOR_MOTD                         = 0x80,
-   DOR_MOTC                         = 0x40,
-   DOR_MOTB                         = 0x20,
-   DOR_MOTA                         = 0x10,
-   DOR_IRQ                          = 0x08,
-   DOR_RESET                        = 0x04,
-   DOR_DSEL1                        = 0x01
+   FLOPPY_DOR_MOTD                         = 0x80,
+   FLOPPY_DOR_MOTC                         = 0x40,
+   FLOPPY_DOR_MOTB                         = 0x20,
+   FLOPPY_DOR_MOTA                         = 0x10,
+   FLOPPY_DOR_IRQ                          = 0x08,
+   FLOPPY_DOR_RESET                        = 0x04,
+   FLOPPY_DOR_DSEL1                        = 0x01
 };
 /* MSR Commands
 Mnemonic 	Bit Value
@@ -44,51 +53,51 @@ Mnemonic 	Bit Value
 */
 enum FloppyMSRBitflags
 {
-   MSR_RQM                          = 0x80, // Set if it's OK (or mandatory) to exchange bytes with the FIFO IO port
-   MSR_DIO                          = 0x40, // Set if FIFO IO port expects an IN opcode
-   MSR_NDMA                         = 0x20, // Set in Execution phase of PIO mode read/write commands only.
-   MSR_CB                           = 0x10, // Command Busy: set when command byte received, cleared at end of Result phase
-   MSR_ACTD                         = 0x08, // Drive 3 is seeking
-   MSR_ACTC                         = 0x04, // Drive 2 is seeking
-   MSR_ACTB                         = 0x02, // Drive 1 is seeking
-   MSR_ACTA                         = 0x01, // Drive 0 is seeking
+   FLOPPY_MSR_RQM                          = 0x80, // Set if it's OK (or mandatory) to exchange bytes with the FIFO IO port
+   FLOPPY_MSR_DIO                          = 0x40, // Set if FIFO IO port expects an IN opcode
+   FLOPPY_MSR_NDMA                         = 0x20, // Set in Execution phase of PIO mode read/write commands only.
+   FLOPPY_MSR_CB                           = 0x10, // Command Busy: set when command byte received, cleared at end of Result phase
+   FLOPPY_MSR_ACTD                         = 0x08, // Drive 3 is seeking
+   FLOPPY_MSR_ACTC                         = 0x04, // Drive 2 is seeking
+   FLOPPY_MSR_ACTB                         = 0x02, // Drive 1 is seeking
+   FLOPPY_MSR_ACTA                         = 0x01, // Drive 0 is seeking
 };
 
 // Bottom 2 Bits of DSR match CCR
 enum FloppyRegisters
 {
-   STATUS_REGISTER_A                = 0x3F0, // read-only
-   STATUS_REGISTER_B                = 0x3F1, // read-only
-   DIGITAL_OUTPUT_REGISTER          = 0x3F2,
-   TAPE_DRIVE_REGISTER              = 0x3F3, // Basically Useless, unless for some reason you have a tape drive
-   MAIN_STATUS_REGISTER             = 0x3F4, // read-only
-   DATARATE_SELECT_REGISTER         = 0x3F4, // write-only
-   DATA_FIFO                        = 0x3F5,
-   DIGITAL_INPUT_REGISTER           = 0x3F7, // read-only
-   CONFIGURATION_CONTROL_REGISTER   = 0x3F7  // write-only
+   FLOPPY_STATUS_REGISTER_A                = 0x3F0, // read-only
+   FLOPPY_STATUS_REGISTER_B                = 0x3F1, // read-only
+   FLOPPY_DIGITAL_OUTPUT_REGISTER          = 0x3F2,
+   FLOPPY_TAPE_DRIVE_REGISTER              = 0x3F3, // Basically Useless, unless for some reason you have a tape drive
+   FLOPPY_MAIN_STATUS_REGISTER             = 0x3F4, // read-only
+   FLOPPY_DATARATE_SELECT_REGISTER         = 0x3F4, // write-only
+   FLOPPY_DATA_FIFO                        = 0x3F5,
+   FLOPPY_DIGITAL_INPUT_REGISTER           = 0x3F7, // read-only
+   FLOPPY_CONFIGURATION_CONTROL_REGISTER   = 0x3F7  // write-only
 };
 
 enum FloppyCommands
 {
-   READ_TRACK =                 2,	// generates IRQ6
-   SPECIFY =                    3,      // * set drive parameters
-   SENSE_DRIVE_STATUS =         4,
-   WRITE_DATA =                 5,      // * write to the disk
-   READ_DATA =                  6,      // * read from the disk
-   RECALIBRATE =                7,      // * seek to cylinder 0
-   SENSE_INTERRUPT =            8,      // * ack IRQ6, get status of last command
-   WRITE_DELETED_DATA =         9,
-   READ_ID =                    10,	// generates IRQ6
-   READ_DELETED_DATA =          12,
-   FORMAT_TRACK =               13,     // *
-   DUMPREG =                    14,
-   SEEK =                       15,     // * seek both heads to cylinder X
-   VERSION =                    16,	// * used during initialization, once
-   SCAN_EQUAL =                 17,
-   PERPENDICULAR_MODE =         18,	// * used during initialization, once, maybe
-   CONFIGURE =                  19,     // * set controller parameters
-   LOCK =                       20,     // * protect controller params from a reset
-   VERIFY =                     22,
-   SCAN_LOW_OR_EQUAL =          25,
-   SCAN_HIGH_OR_EQUAL =         29
+   FLOPPY_READ_TRACK =                 2,	// generates IRQ6
+   FLOPPY_SPECIFY =                    3,      // * set drive parameters
+   FLOPPY_SENSE_DRIVE_STATUS =         4,
+   FLOPPY_WRITE_DATA =                 5,      // * write to the disk
+   FLOPPY_READ_DATA =                  6,      // * read from the disk
+   FLOPPY_RECALIBRATE =                7,      // * seek to cylinder 0
+   FLOPPY_SENSE_INTERRUPT =            8,      // * ack IRQ6, get status of last command
+   FLOPPY_WRITE_DELETED_DATA =         9,
+   FLOPPY_READ_ID =                    10,	// generates IRQ6
+   FLOPPY_READ_DELETED_DATA =          12,
+   FLOPPY_FORMAT_TRACK =               13,     // *
+   FLOPPY_DUMPREG =                    14,
+   FLOPPY_SEEK =                       15,     // * seek both heads to cylinder X
+   FLOPPY_VERSION =                    16,	// * used during initialization, once
+   FLOPPY_SCAN_EQUAL =                 17,
+   FLOPPY_PERPENDICULAR_MODE =         18,	// * used during initialization, once, maybe
+   FLOPPY_CONFIGURE =                  19,     // * set controller parameters
+   FLOPPY_LOCK =                       20,     // * protect controller params from a reset
+   FLOPPY_VERIFY =                     22,
+   FLOPPY_SCAN_LOW_OR_EQUAL =          25,
+   FLOPPY_SCAN_HIGH_OR_EQUAL =         29
 };
