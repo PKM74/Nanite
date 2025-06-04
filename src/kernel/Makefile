@@ -55,7 +55,7 @@ $(BUILD_DIR)/kernel/asm/%.obj: %.asm $(HEADERS_ASM)
 	@echo "--> Compiled: " $<
 
 arch/i686/gen_isr.c arch/i686/gen_isr.inc:
-	@$(SOURCE_DIR)/build_tools/generate_isrs.sh $@
+	@$(SOURCE_DIR)/build_scripts/genISR.sh $@
 	@echo "--> Compiled: ISR Gen Files"
 
 clean:

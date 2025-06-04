@@ -5,9 +5,9 @@
 ;/////////////////////;
 [bits 32]
 
-; void __attribute__((cdecl)) i686_GDT_Load(GDTDescriptor* descriptor, uint16_t codeSegment, uint16_t dataSegment);
-global i686_GDT_Load
-i686_GDT_Load:
+; void __attribute__((cdecl)) GDT_Load(GDTDescriptor* descriptor, uint16_t codeSegment, uint16_t dataSegment);
+global GDT_Load
+GDT_Load:
     ; make new call frame
     push ebp             ; save old call frame
     mov ebp, esp         ; initialize new call frame

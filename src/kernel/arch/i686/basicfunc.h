@@ -5,4 +5,4 @@
 \*----------------*/
 #pragma once
 
-void __attribute__((cdecl)) i686_reboot();
+void __attribute__((cdecl)) Reboot();

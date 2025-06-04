@@ -26,9 +26,9 @@ IDTEntry g_IDT[256];
 
 IDTDescriptor g_IDTDescriptor = {sizeof(g_IDT) -1, g_IDT};
 
-void __attribute__((cdecl)) i686_IDT_Load(IDTDescriptor* idtDescriptor);
+void __attribute__((cdecl)) IDT_Load(IDTDescriptor* idtDescriptor);
 
-void i686_IDT_SetGate(int interupt, void* base, uint16_t segmentDescriptor, uint8_t flags) {
+void IDT_SetGate(int interupt, void* base, uint16_t segmentDescriptor, uint8_t flags) {
     g_IDT[interupt].BaseLow = ((uint32_t)base) & 0xFFFF;
     g_IDT[interupt].SegmentSelector = segmentDescriptor;
     g_IDT[interupt].Reserved = 0;
@@ -36,15 +36,15 @@ void i686_IDT_SetGate(int interupt, void* base, uint16_t segmentDescriptor, uint
     g_IDT[interupt].BaseHigh = ((uint32_t)base >> 16) & 0xFFFF;
 }
 
-void i686_IDT_EnableGate(int interupt) {
+void IDT_EnableGate(int interupt) {
     FLAG_SET(g_IDT[interupt].Flags, IDT_FLAG_PRESENT);
 }
 
-void i686_IDT_DisableGate(int interupt) {
+void IDT_DisableGate(int interupt) {
     FLAG_UNSET(g_IDT[interupt].Flags, IDT_FLAG_PRESENT);
 }
 
-void i686_IDT_Initialize() {
-    i686_IDT_Load(&g_IDTDescriptor);
+void IDT_Initialize() {
+    IDT_Load(&g_IDTDescriptor);
 }
 

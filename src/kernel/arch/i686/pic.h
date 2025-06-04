@@ -6,10 +6,10 @@
 #pragma once
 
 #include <stdint.h>
-void i686_PIC_Configure(uint8_t offsetPic1, uint8_t offsetPic2);
-void i686_PIC_SendEndOfInterrupt(int irq);
-void i686_PIC_Disable();
-void i686_PIC_Mask(int irq);
-void i686_PIC_Unmask(int irq);
-uint16_t i686_PIC_ReadIRQRequestRegister();
-uint16_t i686_PIC_ReadInServiceRegister();
+void PIC_Configure(uint8_t offsetPic1, uint8_t offsetPic2);
+void PIC_SendEndOfInterrupt(int irq);
+void PIC_Disable();
+void PIC_Mask(int irq);
+void PIC_Unmask(int irq);
+uint16_t PIC_ReadIRQRequestRegister();
+uint16_t PIC_ReadInServiceRegister();

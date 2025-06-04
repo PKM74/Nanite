@@ -13,7 +13,7 @@
 
 IRQHandler g_IRQHandlers[16];
 
-void i686_IRQ_Handler(Registers* regs)
+void IRQ_Handler(Registers* regs)
 {
     int irq = regs->interrupt - PIC_REMAP_OFFSET;
 
@@ -27,22 +27,22 @@ void i686_IRQ_Handler(Registers* regs)
         printf("Unhandled IRQ %d...\n", irq);
     }
 
-    i686_PIC_SendEndOfInterrupt(irq);
+    PIC_SendEndOfInterrupt(irq);
 }
 
-void i686_IRQ_Initialize()
+void IRQ_Initialize()
 {
-    i686_PIC_Configure(PIC_REMAP_OFFSET, PIC_REMAP_OFFSET + 8);
+    PIC_Configure(PIC_REMAP_OFFSET, PIC_REMAP_OFFSET + 8);
 
     // register ISR handlers for each of the 16 IRQ lines
     for (int i = 0; i < 16; i++)
-        i686_ISR_RegisterHandler(PIC_REMAP_OFFSET + i, i686_IRQ_Handler);
+        ISR_RegisterHandler(PIC_REMAP_OFFSET + i, IRQ_Handler);
 
     // enable interrupts 
-    i686_EnableInterrupts();
+    EnableInterrupts();
 }
 
-void i686_IRQ_RegisterHandler(int irq, IRQHandler handler)
+void IRQ_RegisterHandler(int irq, IRQHandler handler)
 {
     g_IRQHandlers[irq] = handler;
 }

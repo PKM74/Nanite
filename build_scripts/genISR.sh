@@ -22,15 +22,15 @@ echo "#include \"gdt.h\"" >> $ISRS_GEN_C
 echo "" >> $ISRS_GEN_C
 
 for i in $(seq 0 255); do
-    echo "void __attribute((cdecl)) i686_ISR${i}();" >> $ISRS_GEN_C
+    echo "void __attribute((cdecl)) ISR${i}();" >> $ISRS_GEN_C
 done
 
 echo "" >> $ISRS_GEN_C
-echo "void i686_ISR_InitializeGates()" >> $ISRS_GEN_C
+echo "void ISR_InitializeGates()" >> $ISRS_GEN_C
 echo "{" >> $ISRS_GEN_C
 
 for i in $(seq 0 255); do
-    echo "    i686_IDT_SetGate(${i}, i686_ISR${i}, i686_GDT_CODE_SEGMENT, IDT_FLAG_RING0 | IDT_FLAG_GATE_32BIT_INT);" >> $ISRS_GEN_C
+    echo "    IDT_SetGate(${i}, ISR${i}, GDT_CODE_SEGMENT, IDT_FLAG_RING0 | IDT_FLAG_GATE_32BIT_INT);" >> $ISRS_GEN_C
 done
 
 

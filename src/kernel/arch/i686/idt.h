@@ -7,10 +7,10 @@
 
 #include <stdint.h>
 
-void i686_IDT_Initialize();
-void i686_IDT_DisableGate(int interupt);
-void i686_IDT_EnableGate(int interupt);
-void i686_IDT_SetGate(int interupt, void* base, uint16_t segmentDescriptor, uint8_t flags);
+void IDT_Initialize();
+void IDT_DisableGate(int interupt);
+void IDT_EnableGate(int interupt);
+void IDT_SetGate(int interupt, void* base, uint16_t segmentDescriptor, uint8_t flags);
 
 typedef enum {
     IDT_FLAG_GATE_TASK                  = 0x5,

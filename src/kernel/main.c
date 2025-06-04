@@ -42,7 +42,7 @@ void timer(Registers* regs)
 int keyboard_scancode;
 void keyboard()
 {
-    keyboard_scancode = i686_inb(PS2_KEYBOARD_PORT);
+    keyboard_scancode = inb(PS2_KEYBOARD_PORT);
     // Debug Message, need to make a serial output thingy :)
     Serial_Printf(DEBUG_COM_PORT, "Keycode = %d Port = %d\n", keyboard_scancode, PS2_KEYBOARD_PORT);
 }
@@ -61,23 +61,21 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     movecursorpos(19, 8);
     printf("Done!\n\n\n\n\n");
     Init_Serial(DEBUG_COM_PORT, 9600);
-    i686_IRQ_RegisterHandler(0, timer);
-    i686_IRQ_RegisterHandler(8, CMOS_RTC_Handler);
-    i686_IRQ_RegisterHandler(4, COM1_Serial_Handler);
+    IRQ_RegisterHandler(0, timer);
+    IRQ_RegisterHandler(8, CMOS_RTC_Handler);
+    IRQ_RegisterHandler(4, COM1_Serial_Handler);
 
     // Begin Loading Basic Drivers
     printf("Load Keyboard Driver...");
-    i686_IRQ_RegisterHandler(1, keyboard);
+    IRQ_RegisterHandler(1, keyboard);
     printf("Done!\n");
 
     printf("Load Basic Storage Drivers...");
-    i686_IRQ_RegisterHandler(6, Floppy_Handler);
+    IRQ_RegisterHandler(6, Floppy_Handler);
     printf("Done!\n");
     masterFDDType = Master_FDD_Detect();
     slaveFDDType = Slave_FDD_Detect();
-    Floppy_Drive_Init(1);
     Print_Storage_Types(masterFDDType, slaveFDDType);
-    // printf("Kernel Params: %s\n", bootParams->KernelParams);
 
 
 
@@ -90,8 +88,6 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
         Serial_Printf(DEBUG_COM_PORT, "Memory: start=0x%llx length=0x%llx type=0x%x\n", 
         bootParams->Memory.Regions[i].Begin, bootParams->Memory.Regions[i].Length, bootParams->Memory.Regions[i].Type);
     }
-
-
 
 end:
     for (;;);

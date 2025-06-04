@@ -22,8 +22,8 @@ void CMOS_RTC_Handler()
 uint8_t Read_CMOS(uint8_t Register)
 {   
    uint8_t data;
-   i686_outb(0x70, Register);
-   data = i686_inb(CMOS_DATAPORT);
+   outb(0x70, Register);
+   data = inb(CMOS_DATAPORT);
    return data;
 }
 
