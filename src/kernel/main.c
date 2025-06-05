@@ -8,7 +8,7 @@
 #include <memory.h>
 #include <arch/i686/io.h>
 #include <arch/i686/irq.h>
-#include <arch/i686/basicfunc.h>
+#include <arch/i686/util.h>
 #include <dri/keyboard.h>
 #include <dri/cmos.h>
 #include <dri/serial.h>
@@ -64,7 +64,7 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     printf("Initializing Basic Drivers...");
     Serial_Init(DEBUG_COM_PORT, 9600);
     Keyboard_Init();
-    Floppy_Init(); // This should always be last; its slow as fuck
+    // Floppy_Init(); // This should always be last; its slow as fuck
     printf("Done!\n");
 
 

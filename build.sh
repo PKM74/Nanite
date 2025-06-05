@@ -38,12 +38,14 @@ case $yn in
 	echo -------------
 	echo STARTING QEMU
 	echo -------------
-	qemu-system-i386 -chardev pty,id=serial1 \
+	qemu-system-i386 \
+	-chardev pty,id=serial1 \
 	-serial mon:stdio \
 	-serial chardev:serial1 \
 	-audiodev pa,id=speaker \
 	-machine pcspk-audiodev=speaker \
-	-fda build/main_floppy.img
+	-fda build/main_floppy.img \
+	-m size=512M
 	echo --------
 	echo Finshed!
 	echo --------

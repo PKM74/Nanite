@@ -9,7 +9,7 @@
 #include <stdbool.h>
 #include <arch/i686/irq.h>
 #include <arch/i686/io.h>
-#include <arch/i686/basicfunc.h>
+#include <arch/i686/util.h>
 #include <dri/serial.h>
 #include <stdio.h>
 
