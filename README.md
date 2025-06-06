@@ -14,27 +14,29 @@ Good luck figuring out the spagetti code i write... (sorry not sorry ;D)
 Designed for older computers such as a Pentium (i586) Class Machine. I would recomend atleast a Pentium 2 Class System or higher however.
 
 ## Features
-- Support for the GRUB Bootloader
+- Support for the GNU GRUB Bootloader
 - Custom Theme for GRUB (Coming Soon!)
 - Basic Memory Paging
 - Support for Floppy Disk Drives (FDDs)
 - Basic Serial (RS-232) Support
 - Keyboard Input
 
-Note:Kernel is currently under very heavy development.
+Note: Kernel is currently under very heavy development.
 All things are subject to change at any time.
 
 ## Building
-You Basically Run `./build.sh` to build it
+Run `./build.sh` inside main directory of repo
 
-If you wanted to write it to a floppy disk you can use `write.sh` tho be careful as the value for what drive it uses is hard coded as /dev/sdb
+To write to a disk, use `./write.sh` WARNING: **is hard coded to /dev/sdb** (sorry i suck at scripting)
+
+You could also run `make all` but the scripts a bit better tbh, it even automates starting QEMU.
 
 ### Build Requirements
 - mtools
 - make
 - gcc (or really any C compiler)
-- NASM
-- GRUB
+- nasm
+- grub
 
 ## How is Testing Done
 Testing is mostly done with QEMU These days, but I do sometimes pull out my Dell Latitude D610 to test on (for anyone wondering its completely maxed out. [2GB of ram Pentium M @ 2.23GHz])

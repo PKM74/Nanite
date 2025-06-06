@@ -38,11 +38,11 @@ OBJECTS_ASM = $(patsubst %.asm, $(BUILD_DIR)/kernel/asm/%.obj, $(SOURCES_ASM))
 
 all: kernel
 
-kernel: $(BUILD_DIR)/kernel.bin
+kernel: $(BUILD_DIR)/nanite.bin
 
-$(BUILD_DIR)/kernel.bin: $(OBJECTS_ASM) $(OBJECTS_C)
+$(BUILD_DIR)/nanite.bin: $(OBJECTS_ASM) $(OBJECTS_C)
 	@$(TARGET_LD) $(TARGET_LINKFLAGS) -Wl,-Map=$(BUILD_DIR)/kernel.map -o $@ $^ $(TARGET_LIBS)
-	@echo "--> Created:  kernel.bin"
+	@echo "--> Created:  nanite.bin"
 
 $(BUILD_DIR)/kernel/c/%.obj: %.c $(HEADERS_C)
 	@mkdir -p $(@D)
@@ -59,4 +59,4 @@ arch/i686/gen_isr.c arch/i686/gen_isr.inc:
 	@echo "--> Compiled: ISR Gen Files"
 
 clean:
-	rm -f $(BUILD_DIR)/kernel.bin
+	rm -f $(BUILD_DIR)/nanite.bin
