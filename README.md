@@ -14,7 +14,8 @@ Good luck figuring out the spagetti code i write... (sorry not sorry ;D)
 Designed for older computers such as a Pentium (i586) Class Machine. I would recomend atleast a Pentium 2 Class System or higher however.
 
 ## Features
-- Bootloader
+- Support for the GRUB Bootloader
+- Custom Theme for GRUB (Coming Soon!)
 - Basic Memory Paging
 - Support for Floppy Disk Drives (FDDs)
 - Basic Serial (RS-232) Support
@@ -33,6 +34,7 @@ If you wanted to write it to a floppy disk you can use `write.sh` tho be careful
 - make
 - gcc (or really any C compiler)
 - NASM
+- GRUB
 
 ## How is Testing Done
 Testing is mostly done with QEMU These days, but I do sometimes pull out my Dell Latitude D610 to test on (for anyone wondering its completely maxed out. [2GB of ram Pentium M @ 2.23GHz])

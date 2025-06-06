@@ -1,6 +1,6 @@
 # Kernel Parameters
 
-Kernel Parameters are edited via editing the `kernelparams` file in the root of the git tree/hdd.
+Basically just enter it into grub, just like you would for something like linux.
 They should be seperated via commas **WITHOUT ANY SPACES!**
 
 ## List of Parameters

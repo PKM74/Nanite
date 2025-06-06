@@ -1,4 +1,3 @@
 .vscode/
 build/
 toolchain/
-src/bootloader/stage2_old
