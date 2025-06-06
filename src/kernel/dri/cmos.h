@@ -8,6 +8,7 @@
 #include <stdint.h>
 
 void CMOS_RTC_Handler();
+void CPU_Timer();
 int Master_FDD_Detect();
 int Slave_FDD_Detect();
 uint8_t Read_CMOS(uint8_t Register);

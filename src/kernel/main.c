@@ -16,26 +16,16 @@
 #include <dri/disk/floppy.h>
 #include <dri/disk/ata.h>
 #include <core/hal/hal.h>
+#include <core/memory/page.h>
 #include <util/param.h>
 #include <util/util.h>
 #include "../libs/version.h"
 #include "../libs/boot/bootparams.h"
 
-#define PS2_KEYBOARD_PORT 0x60
-
 extern uint8_t __bss_start;
 extern uint8_t __end;
 
 uint16_t DEBUG_COM_PORT = COM1_PORT;
-
-int uptime;
-void timer(Registers* regs)
-{
-    uptime++;
-    // printf("%d", uptime);
-    // movecursorpos(8,14);
-}
-
 
 void __attribute__((section(".entry"))) start(BootParams* bootParams) {
 
@@ -53,7 +43,7 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
 
     // Register IRQs
     printf("Registering IRQs...");
-    IRQ_RegisterHandler(0, timer);
+    IRQ_RegisterHandler(0, CPU_Timer);
     IRQ_RegisterHandler(1, Keyboard_Handler);
     IRQ_RegisterHandler(4, COM1_Serial_Handler);
     IRQ_RegisterHandler(6, Floppy_Handler);
@@ -67,6 +57,10 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     // Floppy_Init(); // This should always be last; its slow as fuck
     printf("Done!\n");
 
+    // unsure why this is not working, will look into it later...
+    printf("Initializing Memory Paging...");
+    // Memory_Page_Init();
+    printf("Done!\n");
 
 
 

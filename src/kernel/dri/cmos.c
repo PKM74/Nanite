@@ -74,3 +74,9 @@ int Slave_FDD_Detect()
     }
     return FDDType;
 }
+
+int uptime;
+void CPU_Timer()
+{
+    uptime++;
+}
