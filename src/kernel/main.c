@@ -19,15 +19,14 @@
 #include <core/memory/page.h>
 #include <util/param.h>
 #include <util/util.h>
-#include "../libs/version.h"
-#include "../libs/boot/bootparams.h"
+#include <version.h>
 
 extern uint8_t __bss_start;
 extern uint8_t __end;
 
 uint16_t DEBUG_COM_PORT = COM1_PORT;
 
-void __attribute__((section(".entry"))) start(BootParams* bootParams) {
+void __attribute__((section(".entry"))) start() {
 
     // print logo
     clrscr();
@@ -61,16 +60,6 @@ void __attribute__((section(".entry"))) start(BootParams* bootParams) {
     printf("Initializing Memory Paging...");
     // Memory_Page_Init();
     printf("Done!\n");
-
-
-
-    // Debug Info for Memory
-    Serial_Printf(DEBUG_COM_PORT, "MEMORY:> Boot Device: %x\n", bootParams->BootDevice);
-    Serial_Printf(DEBUG_COM_PORT, "MEMORY:> Region Count: %x\n", bootParams->Memory.RegionCount);
-    for (int i = 0; i < bootParams->Memory.RegionCount; i++) {
-        Serial_Printf(DEBUG_COM_PORT, "MEMORY:> start=0x%llx length=0x%llx type=0x%x\n", 
-        bootParams->Memory.Regions[i].Begin, bootParams->Memory.Regions[i].Length, bootParams->Memory.Regions[i].Type);
-    }
 
 end:
     for (;;);
