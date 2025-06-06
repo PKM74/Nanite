@@ -41,7 +41,7 @@ case $yn in
 	sudo losetup -d /dev/loop800
 	dd if=/dev/zero of=build/main.img bs=512 count=50000
 	mkdir -p build/mnt
-	sudo losetup /dev/loop800 build/main.img
+	sudo losetup -P /dev/loop800 build/main.img
 	sudo parted /dev/loop800 mktable msdos
 	sudo parted /dev/loop800 mkpart primary fat16 2048s 100%
 	sudo parted /dev/loop800p1 set 1 boot on
@@ -52,7 +52,7 @@ case $yn in
 	sudo mkdir build/mnt/misc
 	sudo mkdir build/mnt/misc/src
 	sudo cp -r src/* build/mnt/src
-	sudo cp -r grub/* build/mnt/grub
+	sudo cp -r grub/* build/mnt/boot/grub
 	sudo cp build/nanite.bin build/mnt/boot/nanite
 	sudo grub-install \
 		--modules="part_msdos" \

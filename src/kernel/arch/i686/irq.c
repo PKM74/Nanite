@@ -8,8 +8,11 @@
 #include "io.h"
 #include <stddef.h>
 #include <stdio.h>
+#include <dri/serial.h>
 
 #define PIC_REMAP_OFFSET        0x20
+
+extern uint16_t DEBUG_COM_PORT;
 
 IRQHandler g_IRQHandlers[16];
 
@@ -24,7 +27,7 @@ void IRQ_Handler(Registers* regs)
     }
     else
     {
-        printf("Unhandled IRQ %d...\n", irq);
+        Serial_Printf(DEBUG_COM_PORT, "Unhandled IRQ %d...\n", irq);
     }
 
     PIC_SendEndOfInterrupt(irq);
