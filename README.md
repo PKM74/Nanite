@@ -10,7 +10,8 @@ A Very small OS that can run on X86 Hardware.
 
 Good luck figuring out the spagetti code i write... (sorry not sorry ;D)
 
-Designed for older computers such as a Pentium (i586) Class Machine. I however would recomend atleast a Pentium 2 Class System or higher.
+Designed for older computers such as a Pentium (i586) Class Machine.
+I however would recomend atleast a Pentium 2 Class System or higher.
 
 ## Features
 - Support for the GNU GRUB 2 Bootloader and Multiboot V2
@@ -35,7 +36,7 @@ You could also run `make all` but the scripts a bit better tbh, it even automate
 - gcc (or really any C compiler)
 - nasm
 
-#### Image Only
+#### Only Needed to Build the Image
 
 - grub2
 - parted
