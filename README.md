@@ -6,15 +6,14 @@
 ![repo size](https://img.shields.io/github/repo-size/PKM74/Nanite)
 ![license](https://img.shields.io/github/license/PKM74/Nanite)
 
-Very small OS that can run on X86 Hardware.
-Designed to run from just one 1.44MB floppy disk, ATA support coming soon! (TM)
+A Very small OS that can run on X86 Hardware.
 
 Good luck figuring out the spagetti code i write... (sorry not sorry ;D)
 
-Designed for older computers such as a Pentium (i586) Class Machine. I would recomend atleast a Pentium 2 Class System or higher however.
+Designed for older computers such as a Pentium (i586) Class Machine. I however would recomend atleast a Pentium 2 Class System or higher.
 
 ## Features
-- Support for the GNU GRUB Bootloader
+- Support for the GNU GRUB 2 Bootloader and Multiboot V2
 - Custom Theme for GRUB (Coming Soon!)
 - Basic Memory Paging
 - Support for Floppy Disk Drives (FDDs)
@@ -32,11 +31,11 @@ To write to a disk, use `./write.sh` WARNING: **is hard coded to /dev/sdb** (sor
 You could also run `make all` but the scripts a bit better tbh, it even automates starting QEMU.
 
 ### Build Requirements
-- mtools
 - make
 - gcc (or really any C compiler)
 - nasm
-- grub
+- grub2
+- e2tools
 
 ## How is Testing Done
 Testing is mostly done with QEMU These days, but I do sometimes pull out my Dell Latitude D610 to test on (for anyone wondering its completely maxed out. [2GB of ram Pentium M @ 2.23GHz])

@@ -2,7 +2,7 @@ include build_scripts/config.mk
 
 .PHONY: all floppy_image kernel bootloader clean always tools_fat
 
-all: floppy_image tools_fat
+all: image
 
 include build_scripts/toolchain.mk
 # oldnum = cat version
@@ -11,17 +11,20 @@ include build_scripts/toolchain.mk
 # export newnum
 
 #
-# Floppy image
+# Image
 #
-floppy_image: $(BUILD_DIR)/main_floppy.img
+image: $(BUILD_DIR)/main.img
 
-$(BUILD_DIR)/main_floppy.img: bootloader kernel
-	dd if=/dev/zero of=$(BUILD_DIR)/main_floppy.img bs=512 count=2880
-	mkfs.fat -F 12 -n "NANITE" $(BUILD_DIR)/main_floppy.img
-	mmd -i $(BUILD_DIR)/main_floppy.img "::boot"
-	mmd -i $(BUILD_DIR)/main_floppy.img "::misc"
-	mmd -i $(BUILD_DIR)/main_floppy.img "::misc/src"
-	mcopy -s -i $(BUILD_DIR)/main_floppy.img src/* "::misc/src"
+$(BUILD_DIR)/main.img: bootloader kernel
+	dd if=/dev/zero of=$(BUILD_DIR)/main.img bs=512 count=20000
+	mkfs.ext2 $(BUILD_DIR)/main.img
+	e2mkdir $(BUILD_DIR)/main.img:boot
+	e2mkdir $(BUILD_DIR)/main.img:misc
+	e2mkdir $(BUILD_DIR)/main.img:misc/src
+	e2mkdir $(BUILD_DIR)/main.img:boot/grub
+#	e2cp -v -s src/ -d $(BUILD_DIR)/main.img:misc/src really, really, really slow...
+	e2cp grub/* $(BUILD_DIR)/main.img:boot/grub
+	mkdir -p $(BUILD_DIR)/mnt
 
 #
 # Kernel
