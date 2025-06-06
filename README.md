@@ -34,8 +34,11 @@ You could also run `make all` but the scripts a bit better tbh, it even automate
 - make
 - gcc (or really any C compiler)
 - nasm
+
+#### Image Only
+
 - grub2
-- e2tools
+- parted
 
 ## How is Testing Done
 Testing is mostly done with QEMU These days, but I do sometimes pull out my Dell Latitude D610 to test on (for anyone wondering its completely maxed out. [2GB of ram Pentium M @ 2.23GHz])
