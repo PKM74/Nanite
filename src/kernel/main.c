@@ -21,6 +21,9 @@
 #include <util/util.h>
 #include <version.h>
 
+extern uint8_t __bss_start;
+extern uint8_t __end;
+
 uint16_t DEBUG_COM_PORT = COM1_PORT;
 
 void __attribute__((section(".entry"))) start() {
