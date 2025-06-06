@@ -14,9 +14,14 @@ Good luck figuring out the spagetti code i write... (sorry not sorry ;D)
 Designed for older computers such as a Pentium (i586) Class Machine. I would recomend atleast a Pentium 2 Class System or higher however.
 
 ## Features
-A funtioning Bootloader and half working kernel.
-Also some tools for the FAT filesystem (host system).
-Kernel is currently under heavy development.
+- Bootloader
+- Basic Memory Paging
+- Support for Floppy Disk Drives (FDDs)
+- Basic Serial (RS-232) Support
+- Keyboard Input
+
+Note:Kernel is currently under very heavy development.
+All things are subject to change at any time.
 
 ## Building
 You Basically Run `./build.sh` to build it
@@ -42,4 +47,5 @@ And thanks to some of my favorite bands for some nice ass music!
 - King Gizzard and The Lizzard Wizzard
 - Nine Inch Nails
 - The Strokes
+
 (and if your wondering, yes im a massive nerd about music)
