@@ -1,0 +1,40 @@
+# Nanite GRUB 2 Theme
+
+message-font: "DEFCON Regular 14"
+message-color: "#FFF"
+terminal-font: "DEFCON Regular 12"
+desktop-image: "background.png"
+desktop-image-scale-method: "crop"
+
+
+#boot menu
++ boot_menu {
+	left = 10%
+	width = 80%
+	top = 20%
+	height = 50%	
+	item_font = "DEFCON Regular 12"
+	item_color = "#fff"
+	selected_item_font = "DEFCON Regular 14"
+	selected_item_color= "#f0f"
+	icon_height = 25
+	icon_width = 25
+	item_height = 26
+	item_padding = 0
+	item_icon_space = 0
+	item_spacing = 1
+	scrollbar = true
+	scrollbar_width = 20
+}
+
++ label {
+	top = 100%-25
+	left = 0
+	width = 100%
+	height = 20
+	text = "@KEYMAP_MIDDLE@"
+	align = "center"
+	font = "DEFCON Regular 10"
+	color = "#FFF"
+    bg_color = "#000"
+}
