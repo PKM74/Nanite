@@ -15,7 +15,7 @@ I however would recomend atleast a Pentium 2 Class System or higher.
 
 ## Features
 - Support for the GNU GRUB 2 Bootloader and Multiboot V2
-- Custom Theme for GRUB (Coming Soon!)
+- Custom Theme for GRUB (Not Complete Yet!)
 - Basic Memory Paging
 - Support for Floppy Disk Drives (FDDs)
 - Basic Serial (RS-232) Support
@@ -36,13 +36,13 @@ You could also run `make all` but the scripts a bit better tbh, it even automate
 - gcc (or really any C compiler)
 - nasm
 
-#### Only Needed to Build the Image
+#### Only Required to Build the Image
 
 - grub2
 - parted
 
 ## How is Testing Done
-Testing is mostly done with QEMU These days, but I do sometimes pull out my Dell Latitude D610 to test on (for anyone wondering its completely maxed out. [2GB of ram Pentium M @ 2.23GHz])
+Testing is mostly done with QEMU These days, but I do sometimes pull out my Dell Latitude D610 to test on real hardware (for anyone wondering its completely maxed out. [2GB of ram Pentium M @ 2.23GHz])
 
 ## Thanks! 
 Resources I've Used Throughout the Project
