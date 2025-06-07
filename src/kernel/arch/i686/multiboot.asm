@@ -1,6 +1,6 @@
 ;/////////////////////;
 ;Nanite OS            ;
-;COPYRIGHT (C) 2024   ;
+;COPYRIGHT (C) 2025   ;
 ;Tyler McGurrin       ;
 ;/////////////////////;
 [bits 32]

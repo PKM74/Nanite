@@ -26,8 +26,11 @@ extern uint8_t __end;
 
 uint16_t DEBUG_COM_PORT = COM1_PORT;
 
-void __attribute__((section(".entry"))) start() {
+void __attribute__((section(".entry"))) start(uint64_t multiboot_magic, void *multiboot_data) {
 
+    // multiboot 2 shit
+    // int padded_size = tag->size + ((tag->size % 8)?(8-(tag->size%8)):0);
+    // tag = incptr(tag, padded_size);
     // print logo
     clrscr();
     printf("%s", LOGO);
@@ -60,6 +63,7 @@ void __attribute__((section(".entry"))) start() {
     printf("Initializing Memory Paging...");
     // Memory_Page_Init();
     printf("Done!\n");
+    printf("Multiboot Magic: %d\n", multiboot_magic);
 
 end:
     for (;;);
