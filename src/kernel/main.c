@@ -3,12 +3,19 @@
 |Copyright (C) 2025|
 |Tyler McGurrin    |
 \*----------------*/
-#include <stdint.h>
-#include <stdio.h>
-#include <memory.h>
+#define i686
+
+// Architecture specific
+
+#ifdef i686
 #include <arch/i686/io.h>
 #include <arch/i686/irq.h>
 #include <arch/i686/util.h>
+#endif
+
+#include <stdint.h>
+#include <stdio.h>
+#include <memory.h>
 #include <dri/keyboard.h>
 #include <dri/cmos.h>
 #include <dri/serial.h>
