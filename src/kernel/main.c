@@ -19,6 +19,7 @@
 #include <core/memory/page.h>
 #include <util/param.h>
 #include <util/util.h>
+#include <util/binary.h>
 #include <version.h>
 
 extern uint8_t __bss_start;
@@ -64,6 +65,14 @@ void __attribute__((section(".entry"))) start(uint64_t multiboot_magic, void *mu
     Memory_Page_Init();
     printf("Done!\n");
     printf("Multiboot Magic: %d\n", multiboot_magic);
+    printf("The Current Time and Date Is: %d:%d:%d %d/%d/%d%d\n", 
+        BCD2BIN(Read_CMOS(CMOS_RTC_Hours)), 
+        BCD2BIN(Read_CMOS(CMOS_RTC_Minutes)), 
+        BCD2BIN(Read_CMOS(CMOS_RTC_Seconds)), 
+        BCD2BIN(Read_CMOS(CMOS_RTC_Month)),
+        BCD2BIN(Read_CMOS(CMOS_RTC_Day)),
+        BCD2BIN(Read_CMOS(CMOS_RTC_Century)),
+        BCD2BIN(Read_CMOS(CMOS_RTC_Year)));
 
 end:
     for (;;);

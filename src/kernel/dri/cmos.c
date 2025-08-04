@@ -16,13 +16,19 @@
 
 void CMOS_RTC_Handler()
 {
+    outb(0x70, 0x0C);	// select register C
+    inb(0x71);		    // just throw away contents
+}
+
+void Write_CMOS(uint8_t Register)
+{
 
 }
 
 uint8_t Read_CMOS(uint8_t Register)
 {   
    uint8_t data;
-   outb(0x70, Register);
+   outb(CMOS_ADDPORT, Register);
    data = inb(CMOS_DATAPORT);
    return data;
 }
