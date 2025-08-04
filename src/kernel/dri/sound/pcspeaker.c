@@ -45,6 +45,6 @@ void PCSP_Mute()
 void PCSP_Beep()
 {   
     PCSP_Play(1000);
-    Timer_Wait(100000000);
+    Timer_Wait(5);
     PCSP_Mute();
 }

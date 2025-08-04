@@ -7,8 +7,10 @@
 
 #include <stdio.h>
 #include <stdint.h>
+
 #include <arch/i686/io.h>
 #include <arch/i686/irq.h>
+
 #include <util/binary.h>
 
 #define CMOS_ADDPORT 0x70
@@ -82,11 +84,4 @@ int Slave_FDD_Detect()
         i++;
     }
     return FDDType;
-}
-
-void CMOS_Timer_Wait(int cycles)
-{
-    int tmp;
-    tmp = CMOS_Timer;
-    while(CMOS_Timer - tmp <= cycles) return;
 }
