@@ -33,9 +33,8 @@ void Memory_Page_Init()
     for(i=1; i<1024; i++) {
     Page_Directory[i] = 0 | 2; // attribute set to: supervisor level, read/write
     }
-    Enable_Paging();
+    // Enable_Paging();
     Write_CR3(Page_Directory);
-    // Write_CR0(Read_CR0() | 0x80000000); // set the paging bit in CR0 to 1 
-    /* THATS IT... I GIVE UP! */
-    Serial_Printf(DEBUG_COM_PORT, "HERE!\n");
+    Write_CR0(Read_CR0() | 0x60000001); // set the paging bit in CR0 to 1 
+    /* Holy Shit i Fixed Paging */
 }

@@ -3,15 +3,12 @@
 |Copyright (C) 2025|
 |Tyler McGurrin    |
 \*----------------*/
-#define i686
 
 // Architecture specific
 
-#ifdef i686
 #include <arch/i686/io.h>
 #include <arch/i686/irq.h>
 #include <arch/i686/util.h>
-#endif
 
 #include <stdint.h>
 #include <stdio.h>
@@ -67,7 +64,6 @@ void __attribute__((section(".entry"))) start(uint64_t multiboot_magic, void *mu
     // Floppy_Init(); // This should always be last; its slow as fuck
     printf("Done!\n");
 
-    // unsure why this is not working, will look into it later...
     printf("Initializing Memory Paging...");
     Memory_Page_Init();
     printf("Done!\n");
