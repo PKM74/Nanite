@@ -4,7 +4,8 @@ SECTIONS
 {
     . = ALIGN(8);
 
-    .entry              : { KEEP(*(.multiboot_header)) __entry_start = .;      *(.entry)   }
+    .boot               : { KEEP(*(.multiboot_header)) __boot_start = .;        *(.boot)   }
+    .entry              : { __entry_start = .;      *(.entry)   }
     .text               : { __text_start = .;       *(.text)   }
     .data               : { __data_start = .;       *(.data)    }
     .rodata             : { __rodata_start = .;     *(.rodata)  }

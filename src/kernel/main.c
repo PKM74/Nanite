@@ -10,9 +10,13 @@
 #include <arch/i686/irq.h>
 #include <arch/i686/util.h>
 
+// stdlibs
+
 #include <stdint.h>
 #include <stdio.h>
 #include <memory.h>
+
+// Drivers
 
 #include <dri/keyboard.h>
 #include <dri/cmos.h>
@@ -23,8 +27,12 @@
 #include <dri/disk/ata.h>
 #include <dri/sound/pcspeaker.h>
 
+// Core
+
 #include <core/hal/hal.h>
 #include <core/memory/page.h>
+
+// Utilities
 
 #include <util/param.h>
 #include <util/util.h>
@@ -38,8 +46,7 @@ extern uint8_t __end;
 extern int uptime;
 
 uint16_t DEBUG_COM_PORT = COM1_PORT;
-
-void __attribute__((section(".entry"))) start(uint64_t multiboot_magic, void *multiboot_data) {
+void start(unsigned long multiboot_magic, unsigned long multiboot_addr) {
 
     // multiboot 2 shit
     // int padded_size = tag->size + ((tag->size % 8)?(8-(tag->size%8)):0);
@@ -75,8 +82,9 @@ void __attribute__((section(".entry"))) start(uint64_t multiboot_magic, void *mu
     printf("Initializing Memory Paging...");
     Memory_Page_Init();
     printf("Done!\n");
-    printf("Multiboot Magic: %d\n", multiboot_magic);
-    printf("The Current Time and Date Is: %d:%d:%d %d/%d/%d%d\n", 
+    Serial_Printf(DEBUG_COM_PORT, "Multiboot Magic: %d\n", multiboot_magic);
+    Serial_Printf(DEBUG_COM_PORT, "Multiboot Address: %d\n", multiboot_addr);
+    printf("\nThe Current Time and Date Is: %d:%d:%d %d/%d/%d%d\n", 
         BCD2BIN(Read_CMOS(CMOS_RTC_Hours)), 
         BCD2BIN(Read_CMOS(CMOS_RTC_Minutes)), 
         BCD2BIN(Read_CMOS(CMOS_RTC_Seconds)), 

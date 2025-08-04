@@ -4,6 +4,14 @@
 ;Tyler McGurrin       ;
 ;/////////////////////;
 [bits 32]
+section .boot
+start:
+    push   0
+    popf
+    push   ebx
+    push   eax
+    call   start
+
 section .multiboot_header
 header_start:
     dd 0xe85250d6                ; magic number
@@ -16,3 +24,8 @@ header_start:
     dw 0    ; flags
     dd 8    ; size
 header_end:
+
+loop: 
+    hlt
+    jmp loop
+    
