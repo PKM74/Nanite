@@ -13,21 +13,29 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <memory.h>
+
 #include <dri/keyboard.h>
 #include <dri/cmos.h>
+#include <dri/timer.h>
 #include <dri/serial.h>
 #include <dri/fat.h>
 #include <dri/disk/floppy.h>
 #include <dri/disk/ata.h>
+#include <dri/sound/pcspeaker.h>
+
 #include <core/hal/hal.h>
 #include <core/memory/page.h>
+
 #include <util/param.h>
 #include <util/util.h>
 #include <util/binary.h>
+
 #include <version.h>
 
 extern uint8_t __bss_start;
 extern uint8_t __end;
+
+extern int uptime;
 
 uint16_t DEBUG_COM_PORT = COM1_PORT;
 
@@ -50,7 +58,7 @@ void __attribute__((section(".entry"))) start(uint64_t multiboot_magic, void *mu
 
     // Register IRQs
     printf("Registering IRQs...");
-    IRQ_RegisterHandler(0, CPU_Timer);
+    IRQ_RegisterHandler(0, Timer_Handler);
     IRQ_RegisterHandler(1, Keyboard_Handler);
     IRQ_RegisterHandler(4, COM1_Serial_Handler);
     IRQ_RegisterHandler(6, Floppy_Handler);
@@ -76,6 +84,8 @@ void __attribute__((section(".entry"))) start(uint64_t multiboot_magic, void *mu
         BCD2BIN(Read_CMOS(CMOS_RTC_Day)),
         BCD2BIN(Read_CMOS(CMOS_RTC_Century)),
         BCD2BIN(Read_CMOS(CMOS_RTC_Year)));
+    // Beep!
+    PCSP_Beep();
 
 end:
     for (;;);

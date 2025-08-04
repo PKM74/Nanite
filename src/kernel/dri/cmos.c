@@ -14,10 +14,13 @@
 #define CMOS_ADDPORT 0x70
 #define CMOS_DATAPORT 0x71
 
+int CMOS_Timer;
+
 void CMOS_RTC_Handler()
 {
     outb(0x70, 0x0C);	// select register C
     inb(0x71);		    // just throw away contents
+    CMOS_Timer++;
 }
 
 void Write_CMOS(uint8_t Register)
@@ -81,8 +84,9 @@ int Slave_FDD_Detect()
     return FDDType;
 }
 
-int uptime;
-void CPU_Timer()
+void CMOS_Timer_Wait(int cycles)
 {
-    uptime++;
+    int tmp;
+    tmp = CMOS_Timer;
+    while(CMOS_Timer - tmp <= cycles) return;
 }

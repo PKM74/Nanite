@@ -8,9 +8,9 @@
 #include <stdint.h>
 
 void CMOS_RTC_Handler();
-void CPU_Timer();
 int Master_FDD_Detect();
 int Slave_FDD_Detect();
+void CMOS_Timer_Wait(int cycles);
 uint8_t Read_CMOS(uint8_t Register);
 
 enum CMOSRegisters
