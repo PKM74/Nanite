@@ -1,3 +1,5 @@
 .vscode/
+.ccls-cache/
 build/
 toolchain/
+bochs_dbg.log

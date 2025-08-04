@@ -9,4 +9,4 @@
 
 int string_length(char s[]);
 void append(char s[], char n);
-void Print_Storage_Types(int masterFDDType, int slaveFDDType);
+// void Print_Storage_Types(int masterFDDType, int slaveFDDType);

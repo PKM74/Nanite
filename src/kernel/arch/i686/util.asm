@@ -7,13 +7,13 @@
 
 global Reboot
 Reboot:
-    XOR         AL, AL
-    IN          AL, 0x64
-    TEST        AL, 0x02
-    JNZ         Reboot
+    xor         al, al
+    in          al, 0x64
+    test        al, 0x02
+    jnz         Reboot
 
-    MOV         AL, 0xFC
-    OUT         0x64, AL
+    mov         al, 0xFC
+    out         0x64, al
 
 global Read_CR0
 Read_CR0:
@@ -25,7 +25,9 @@ Write_CR0:
 	push ebp
 	mov ebp, esp
 	mov eax, [ebp+8]
+	push eax
 	mov cr0,  eax
+	pop eax
 	pop ebp
 	retn
 
@@ -42,3 +44,9 @@ Write_CR3:
 	mov cr3, eax
 	pop ebp
 	retn
+
+global Enable_Paging
+Enable_Paging:
+	mov eax, cr4
+	or eax, 0x00000010
+	mov cr4, eax

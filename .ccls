@@ -1,0 +1,4 @@
+clang
+%c -std=c99
+%c -isystem./src/kernel/
+%c -fno-builtin

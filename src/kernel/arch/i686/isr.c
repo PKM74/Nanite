@@ -9,6 +9,9 @@
 #include "io.h"
 #include <stdio.h>
 #include <stddef.h>
+#include <dri/serial.h>>
+
+extern uint16_t DEBUG_COM_PORT;
 
 ISRHandler g_ISRHandlers[256];
 
@@ -62,13 +65,13 @@ void __attribute__((cdecl)) ISR_Handler(Registers* regs) {
         g_ISRHandlers[regs->interrupt](regs);
 
     else if (regs->interrupt >= 32)
-        printf("Unhandled Interrupt %d\n", regs->interrupt);
+        Serial_Printf(DEBUG_COM_PORT, "Unhandled Interrupt %d\n", regs->interrupt);
     else {
-        printf("Unhandled Exception %d %s\n", regs->interrupt, g_Exceptions[regs->interrupt]);
-        printf("  EAX=%x EBX=%x ECX=%x EDX=%x ESI=%x EDI=%x\n",  regs->eax, regs->ebx, regs->ecx, regs->edx, regs->esi, regs->edi);
-        printf("  ESP=%x EBP=%x EIP=%x EFLAGS=%x CS=%x DS=%x SS=%x\n",  regs->esp, regs->ebp, regs->eip, regs->eflags, regs->cs, regs->ds, regs->ss);
-        printf("  INTERRUPT=%x ERRORCODE=%x\n", regs->interrupt, regs->error);
-        printf("KERNEL PANIC!\n");
+        Serial_Printf(DEBUG_COM_PORT, "Unhandled Exception %d %s\n", regs->interrupt, g_Exceptions[regs->interrupt]);
+        Serial_Printf(DEBUG_COM_PORT, "  EAX=%x EBX=%x ECX=%x EDX=%x ESI=%x EDI=%x\n",  regs->eax, regs->ebx, regs->ecx, regs->edx, regs->esi, regs->edi);
+        Serial_Printf(DEBUG_COM_PORT, "  ESP=%x EBP=%x EIP=%x EFLAGS=%x CS=%x DS=%x SS=%x\n",  regs->esp, regs->ebp, regs->eip, regs->eflags, regs->cs, regs->ds, regs->ss);
+        Serial_Printf(DEBUG_COM_PORT, "  INTERRUPT=%x ERRORCODE=%x\n", regs->interrupt, regs->error);
+        Serial_Printf(DEBUG_COM_PORT, "KERNEL PANIC!\n");
         kernel_panic();
     }
 

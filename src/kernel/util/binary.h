@@ -5,6 +5,8 @@
 \*----------------*/
 #pragma once
 
+#include <stdint.h>
+
 #define FLAG_SET(x, flag) x |= (flag)
 #define FLAG_UNSET(x, flag) x &= ~(flag)
 #define BCD2BIN(bcd) ((((bcd)&15) + ((bcd)>>4)*10))

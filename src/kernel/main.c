@@ -51,7 +51,7 @@ void __attribute__((section(".entry"))) start(uint64_t multiboot_magic, void *mu
     IRQ_RegisterHandler(6, Floppy_Handler);
     IRQ_RegisterHandler(8, CMOS_RTC_Handler);
     printf("Done!\n");
-
+    
     // Init Drivers
     printf("Initializing Basic Drivers...");
     Serial_Init(DEBUG_COM_PORT, 9600);
@@ -61,7 +61,7 @@ void __attribute__((section(".entry"))) start(uint64_t multiboot_magic, void *mu
 
     // unsure why this is not working, will look into it later...
     printf("Initializing Memory Paging...");
-    // Memory_Page_Init();
+    Memory_Page_Init();
     printf("Done!\n");
     printf("Multiboot Magic: %d\n", multiboot_magic);
 

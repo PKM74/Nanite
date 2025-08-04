@@ -12,8 +12,8 @@
 
 extern uint16_t DEBUG_COM_PORT;
 
-unsigned long* Page_Directory = (unsigned long*) 0x9c000;
-unsigned long* Page_Table = (unsigned long*) 0x9d000;
+unsigned long* Page_Directory = (unsigned long*) 0x9C000;
+unsigned long* Page_Table = (unsigned long*) 0x9D000;
 
 void Memory_Page_Init()
 {
@@ -28,11 +28,14 @@ void Memory_Page_Init()
     Serial_Printf(DEBUG_COM_PORT, "MEMORY:> Inititalizing Page Directory and Table.\n");
 
     // fill the first entry of the page directory
-    // Page_Directory[0] = Page_Table; 
+    Page_Directory[0] = *Page_Table;
     Page_Directory[0] = Page_Directory[0] | 3; // attribute set to: supervisor level, read/write
     for(i=1; i<1024; i++) {
     Page_Directory[i] = 0 | 2; // attribute set to: supervisor level, read/write
     }
+    Enable_Paging();
     Write_CR3(Page_Directory);
-    Write_CR0(Read_CR0() | 0x80000000); // set the paging bit in CR0 to 1
+    // Write_CR0(Read_CR0() | 0x80000000); // set the paging bit in CR0 to 1 
+    /* THATS IT... I GIVE UP! */
+    Serial_Printf(DEBUG_COM_PORT, "HERE!\n");
 }
