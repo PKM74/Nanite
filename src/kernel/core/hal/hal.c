@@ -12,20 +12,20 @@
 
 void HAL_Initialize() { 
     // init GDT
-    printf("> Initializing GDT...");
+    // printf("> Initializing GDT...");
     GDT_Initialize();
-    printf("Done!\n");
+    // printf("Done!\n");
     // init IDT
-    printf("> Initializing IDT...");
+    // printf("> Initializing IDT...");
     IDT_Initialize();
-    printf("Done!\n");
+    // printf("Done!\n");
     // init ISR
-    printf("> Initializing ISR...");
+    // printf("> Initializing ISR...");
     ISR_Initialize();
-    printf("Done!\n");
+    // printf("Done!\n");
     // init IRQ
-    printf("> Initializing IRQ Handling...");
+    // printf("> Initializing IRQ Handling...");
     IRQ_Initialize();
-    printf("Done!\n");
+    // printf("Done!\n");
 
 }

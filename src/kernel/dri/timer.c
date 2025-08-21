@@ -22,7 +22,6 @@ void Timer_Wait(int time)
     int tmp;
     tmp = uptime;
     while(0 == 0) {
-        // Serial_Printf(DEBUG_COM_PORT, "Vaules TMP: %d Uptime: %d Cycles: %d\n", tmp, uptime, time);
         if(uptime - tmp == time) return;
     } 
 }

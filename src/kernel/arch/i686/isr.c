@@ -72,6 +72,11 @@ void __attribute__((cdecl)) ISR_Handler(Registers* regs) {
         Serial_Printf(DEBUG_COM_PORT, "  ESP=%x EBP=%x EIP=%x EFLAGS=%x CS=%x DS=%x SS=%x\n",  regs->esp, regs->ebp, regs->eip, regs->eflags, regs->cs, regs->ds, regs->ss);
         Serial_Printf(DEBUG_COM_PORT, "  INTERRUPT=%x ERRORCODE=%x\n", regs->interrupt, regs->error);
         Serial_Printf(DEBUG_COM_PORT, "KERNEL PANIC!\n");
+        printf("Unhandled Exception %d %s\n", regs->interrupt, g_Exceptions[regs->interrupt]);
+        printf("  EAX=%x EBX=%x ECX=%x EDX=%x ESI=%x EDI=%x\n",  regs->eax, regs->ebx, regs->ecx, regs->edx, regs->esi, regs->edi);
+        printf("  ESP=%x EBP=%x EIP=%x EFLAGS=%x CS=%x DS=%x SS=%x\n",  regs->esp, regs->ebp, regs->eip, regs->eflags, regs->cs, regs->ds, regs->ss);
+        printf("  INTERRUPT=%x ERRORCODE=%x\n", regs->interrupt, regs->error);
+        printf("KERNEL PANIC!\n");
         kernel_panic();
     }
 
